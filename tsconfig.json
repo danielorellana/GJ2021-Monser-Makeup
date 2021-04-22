@@ -1,11 +1,16 @@
 {
     "compileOnSave" : true,
     "compilerOptions": {
+        "skipLibCheck": true,
         "target": "esnext",
         "outFile": "game.js",
         "strict": true                
     },
+    "include": [
+        "./**/*.ts",
+    ],
     "exclude": [
-        "lib/**"
+        "lib/**",
+        "node_modules/**"
     ]
 }
