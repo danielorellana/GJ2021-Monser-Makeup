@@ -2,9 +2,34 @@
     "section1": {
         "files": [
             {
+                "url": "assets/brush_default.png",
+                "type": "image",
+                "key": "brush_default"
+            },
+            {
                 "url": "assets/dino.png",
                 "type": "image",
                 "key": "dino"
+            },
+            {
+                "url": "assets/pig_bg.png",
+                "type": "image",
+                "key": "pig_bg"
+            },
+            {
+                "url": "assets/pig_image.png",
+                "type": "image",
+                "key": "pig_image"
+            },
+            {
+                "url": "assets/pig_lines.png",
+                "type": "image",
+                "key": "pig_lines"
+            },
+            {
+                "url": "assets/pig_mask.png",
+                "type": "image",
+                "key": "pig_mask"
             }
         ]
     },
