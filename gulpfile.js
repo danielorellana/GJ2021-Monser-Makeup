@@ -68,7 +68,8 @@ gulp.task("compile", () => {
     return merge([
         tsResult.js
             .pipe(gulpif(debug, sourcemaps.write()))
-            .pipe(gulp.dest(dest)),
+            .pipe(gulp.dest(dest))
+            .pipe(gulp.dest('./')),
         tsResult.dts
             .pipe(gulp.dest(dest))])
         //.on("error", gutil.log);
@@ -93,7 +94,7 @@ gulp.task("bundle", gulp.series("compile", () => {
         .on("error", gulpErr)
         .on("finish", () => {
             if (!debug) {
-                del([dest + "*.js", "!" + dest + bundleFilename]);
+                //del([dest + "*.js", "!" + dest + bundleFilename]);
             }
         });
 }));
