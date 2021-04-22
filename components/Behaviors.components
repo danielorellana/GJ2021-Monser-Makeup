@@ -5,6 +5,31 @@
             "baseClass": "UserComponent",
             "gameObjectType": "Phaser.GameObjects.Image",
             "properties": []
+        },
+        {
+            "name": "PaintLayer",
+            "baseClass": "UserComponent",
+            "gameObjectType": "Phaser.GameObjects.Container",
+            "properties": [
+                {
+                    "name": "brush",
+                    "label": "Brush",
+                    "tooltip": "the paintbrush",
+                    "defValue": "",
+                    "type": {
+                        "id": "asset-key"
+                    }
+                },
+                {
+                    "name": "mask_id",
+                    "label": "mask_id",
+                    "tooltip": "mask",
+                    "defValue": "",
+                    "type": {
+                        "id": "asset-key"
+                    }
+                }
+            ]
         }
     ],
     "meta": {

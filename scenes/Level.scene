@@ -18,10 +18,53 @@
             "texture": {
                 "key": "dino"
             },
-            "x": 400,
-            "y": 245.50984430371858,
+            "x": 360,
+            "y": 189,
             "scaleX": -0.9920000064349614,
             "scaleY": 0.9079212765992528
+        },
+        {
+            "type": "Container",
+            "id": "e0e4ac68-671e-4510-b4df-10018b4bf168",
+            "label": "pig_customer",
+            "components": [],
+            "x": 55,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "ee4c6784-0005-4ed7-bb6b-ebb8f1cb81da",
+                    "label": "image_1",
+                    "components": [],
+                    "texture": {
+                        "key": "pig_image"
+                    },
+                    "originX": 0,
+                    "originY": 0
+                },
+                {
+                    "type": "Container",
+                    "id": "7a79a084-8873-4661-bbb2-49441055cae6",
+                    "label": "paintlayer",
+                    "components": [
+                        "PaintLayer"
+                    ],
+                    "PaintLayer.brush": "brush_default",
+                    "PaintLayer.mask_id": "pig_mask",
+                    "list": []
+                },
+                {
+                    "type": "Image",
+                    "id": "fc77b512-2557-4e1e-8f52-60576434ff88",
+                    "label": "image",
+                    "components": [],
+                    "texture": {
+                        "key": "pig_lines"
+                    },
+                    "originX": 0,
+                    "originY": 0,
+                    "visible": false
+                }
+            ]
         },
         {
             "type": "Text",
