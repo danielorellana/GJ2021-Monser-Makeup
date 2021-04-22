@@ -24,11 +24,55 @@
             "id": "f769b0d9-e0e4-4419-913e-94cdd924f842",
             "label": "timer_icon",
             "components": [],
-            "texture": {
-                "key": "timer_icon"
-            },
-            "x": 51,
-            "y": 49
+            "x": 400,
+            "y": 541,
+            "isFilled": true,
+            "fillColor": "#e9e7e5",
+            "width": 900,
+            "height": 128
+        },
+        {
+            "type": "Container",
+            "id": "e0e4ac68-671e-4510-b4df-10018b4bf168",
+            "label": "pig_customer",
+            "components": [],
+            "x": 55,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "ee4c6784-0005-4ed7-bb6b-ebb8f1cb81da",
+                    "label": "image_1",
+                    "components": [],
+                    "texture": {
+                        "key": "pig_image"
+                    },
+                    "originX": 0,
+                    "originY": 0
+                },
+                {
+                    "type": "Container",
+                    "id": "7a79a084-8873-4661-bbb2-49441055cae6",
+                    "label": "paintlayer",
+                    "components": [
+                        "PaintLayer"
+                    ],
+                    "PaintLayer.brush": "brush_default",
+                    "PaintLayer.mask_id": "pig_mask",
+                    "list": []
+                },
+                {
+                    "type": "Image",
+                    "id": "fc77b512-2557-4e1e-8f52-60576434ff88",
+                    "label": "image",
+                    "components": [],
+                    "texture": {
+                        "key": "pig_lines"
+                    },
+                    "originX": 0,
+                    "originY": 0,
+                    "visible": false
+                }
+            ]
         }
     ],
     "plainObjects": [],
