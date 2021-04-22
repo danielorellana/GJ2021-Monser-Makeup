@@ -9,28 +9,26 @@
     },
     "displayList": [
         {
-            "type": "Rectangle",
-            "id": "3b934618-eed9-4434-8abe-668ba88e3830",
-            "label": "background",
+            "type": "Image",
+            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
+            "label": "mirror_scene_frame",
             "components": [],
+            "texture": {
+                "key": "mirror_scene_frame"
+            },
             "x": 400,
-            "y": 286,
-            "isFilled": true,
-            "fillColor": "#4f4342",
-            "width": 900,
-            "height": 600
+            "y": 300
         },
         {
-            "type": "Rectangle",
-            "id": "4ef716b4-4723-4fac-b857-8248469075fb",
-            "label": "rectangle",
+            "type": "Image",
+            "id": "f769b0d9-e0e4-4419-913e-94cdd924f842",
+            "label": "timer_icon",
             "components": [],
-            "x": 400,
-            "y": 541,
-            "isFilled": true,
-            "fillColor": "#e9e7e5",
-            "width": 900,
-            "height": 128
+            "texture": {
+                "key": "timer_icon"
+            },
+            "x": 51,
+            "y": 49
         }
     ],
     "plainObjects": [],
