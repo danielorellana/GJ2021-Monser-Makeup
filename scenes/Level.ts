@@ -17,6 +17,8 @@ class Level extends Phaser.Scene {
 		
 		// dino
 		const dino = this.add.image(400, 245.50984430371858, "dino");
+		dino.scaleX = -0.9920000064349614;
+		dino.scaleY = 0.9079212765992528;
 		
 		// text_1
 		const text_1 = this.add.text(400, 406, "", {});
