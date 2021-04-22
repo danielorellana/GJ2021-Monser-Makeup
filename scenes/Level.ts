@@ -15,18 +15,15 @@ class Level extends Phaser.Scene {
 	
 	editorCreate() {
 		
-		// dino
-		const dino = this.add.image(400, 245.50984430371858, "dino");
+		// background
+		const background = this.add.rectangle(400, 286, 900, 600);
+		background.isFilled = true;
+		background.fillColor = 5194562;
 		
-		// text_1
-		const text_1 = this.add.text(400, 406, "", {});
-		text_1.setOrigin(0.5, 0);
-		text_1.text = "Phaser 3 + Phaser Editor 2D + TypeScript";
-		text_1.setStyle({"fontFamily":"arial","fontSize":"3em"});
-		
-		// dino (components)
-		new PushOnClick(dino);
-		dino.emit("components-awake");
+		// rectangle
+		const rectangle = this.add.rectangle(400, 541, 900, 128);
+		rectangle.isFilled = true;
+		rectangle.fillColor = 15329253;
 	}
 	
 	/* START-USER-CODE */
