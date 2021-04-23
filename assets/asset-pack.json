@@ -22,6 +22,16 @@
                 "key": "makeup_bottle"
             },
             {
+                "url": "assets/customers/monster001_face_neutral.png",
+                "type": "image",
+                "key": "monster001_face_neutral"
+            },
+            {
+                "url": "assets/customers/monster001_head.png",
+                "type": "image",
+                "key": "monster001_head"
+            },
+            {
                 "url": "assets/makeup_compare.png",
                 "type": "image",
                 "key": "makeup_compare"

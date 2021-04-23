@@ -19,6 +19,7 @@ class Level extends Phaser.Scene {
 		const pig_customer = this.add.container(92, 100);
 		pig_customer.scaleX = 2;
 		pig_customer.scaleY = 2;
+		pig_customer.visible = false;
 		
 		// image_1
 		const image_1 = this.add.image(0, 0, "pig_image");
@@ -45,6 +46,22 @@ class Level extends Phaser.Scene {
 		const timer_icon = this.add.image(0, 0, "timer_icon");
 		timerContainer.add(timer_icon);
 		
+		// monster1
+		const monster1 = this.add.container(58, 68);
+		
+		// monster001_head
+		const monster001_head = this.add.image(0, 0, "monster001_head");
+		monster001_head.setOrigin(0, 0);
+		monster1.add(monster001_head);
+		
+		// paintlayer_001
+		const paintlayer_001 = this.add.container(0, 0);
+		monster1.add(paintlayer_001);
+		
+		// face
+		const face = this.add.image(0, 0, "monster001_face_neutral");
+		face.setOrigin(0, 0);
+		monster1.add(face);
 		// makeup
 		const makeup = this.add.container(303, 474);
 		
@@ -84,6 +101,12 @@ class Level extends Phaser.Scene {
 		timerContainerTimer.timer_length = 13;
 		timerContainerTimer.icon = timer_icon;
 		timerContainer.emit("components-awake");
+		
+		// paintlayer_001 (components)
+		const paintlayer_001PaintLayer = new PaintLayer(paintlayer_001);
+		paintlayer_001PaintLayer.brush = "brush_default";
+		paintlayer_001PaintLayer.mask_id = "monster001_head";
+		paintlayer_001.emit("components-awake");
 		
 		this.timer_icon = timer_icon;
 	}

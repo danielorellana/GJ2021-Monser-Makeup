@@ -17,6 +17,7 @@
             "y": 100,
             "scaleX": 2,
             "scaleY": 2,
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -132,6 +133,49 @@
                     "texture": {
                         "key": "timer_icon"
                     }
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "15acc7a4-9714-44a4-9825-441baca7924d",
+            "label": "monster1",
+            "components": [],
+            "x": 58,
+            "y": 68,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "3727ba08-5d6d-4bcc-b61d-cd5b3aae8afd",
+                    "label": "monster001_head",
+                    "components": [],
+                    "texture": {
+                        "key": "monster001_head"
+                    },
+                    "originX": 0,
+                    "originY": 0
+                },
+                {
+                    "type": "Container",
+                    "id": "1c8ee19b-e616-44f9-9bff-77673dd0f52a",
+                    "label": "paintlayer_001",
+                    "components": [
+                        "PaintLayer"
+                    ],
+                    "PaintLayer.brush": "brush_default",
+                    "PaintLayer.mask_id": "monster001_head",
+                    "list": []
+                },
+                {
+                    "type": "Image",
+                    "id": "b6c11f8a-06a8-422c-b4e6-54ea45eea390",
+                    "label": "face",
+                    "components": [],
+                    "texture": {
+                        "key": "monster001_face_neutral"
+                    },
+                    "originX": 0,
+                    "originY": 0
                 }
             ]
         }
