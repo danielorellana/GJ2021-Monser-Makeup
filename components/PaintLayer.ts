@@ -66,6 +66,10 @@ class PaintLayer extends UserComponent {
 		this.render_texture.erase(this.brush, x, y);
 	}
 
+	clear() {
+		this.render_texture.clear();
+	}
+
 	update() {		
 		let matrix = this.gameObject.getWorldTransformMatrix();
 		this.mask_object.setPosition(matrix.tx, matrix.ty);
@@ -116,8 +120,7 @@ class PaintLayer extends UserComponent {
 		this.render_texture.on("pointerdown", handlePointer);
 		this.render_texture.on("pointermove", handlePointer);
 
-
-
+		this.gameObject.scene.events.on(Level.EVENT_TIMER_DONE, this.clear, this);
 	}
 	/* END-USER-CODE */
 }

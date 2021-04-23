@@ -47,6 +47,50 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Timer",
+            "baseClass": "UserComponent",
+            "gameObjectType": "Phaser.GameObjects.Container",
+            "properties": [
+                {
+                    "name": "progress_bar_key",
+                    "label": "Progress Bar",
+                    "tooltip": "Progress Bar",
+                    "defValue": "timer_icon",
+                    "type": {
+                        "id": "asset-key"
+                    }
+                },
+                {
+                    "name": "timer_icon",
+                    "label": "Timer Icon Name",
+                    "tooltip": "timer_icon",
+                    "defValue": "timer_icon",
+                    "type": {
+                        "id": "asset-key"
+                    }
+                },
+                {
+                    "name": "timer_length",
+                    "label": "Timer Length",
+                    "tooltip": "Timer Length",
+                    "defValue": 30,
+                    "type": {
+                        "id": "number"
+                    }
+                },
+                {
+                    "name": "icon",
+                    "label": "icon",
+                    "tooltip": "icon",
+                    "defValue": "",
+                    "type": {
+                        "id": "expression",
+                        "expressionType": "any"
+                    }
+                }
+            ]
         }
     ],
     "meta": {

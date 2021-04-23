@@ -38,8 +38,12 @@ class Level extends Phaser.Scene {
 		// mirror_scene_frame
 		this.add.image(400, 300, "mirror_scene_frame");
 		
+		// timerContainer
+		const timerContainer = this.add.container(48, 45);
+		
 		// timer_icon
-		this.add.image(56, 60, "timer_icon");
+		const timer_icon = this.add.image(0, 0, "timer_icon");
+		timerContainer.add(timer_icon);
 		
 		// makeup
 		const makeup = this.add.container(303, 474);
@@ -75,18 +79,30 @@ class Level extends Phaser.Scene {
 		const bottle_blueMakeupBottle = new MakeupBottle(bottle_blue);
 		bottle_blueMakeupBottle.tint = bottle_blue.tintTopLeft;
 		bottle_blue.emit("components-awake");
+		// timerContainer (components)
+		const timerContainerTimer = new Timer(timerContainer);
+		timerContainerTimer.timer_length = 13;
+		timerContainerTimer.icon = timer_icon;
+		timerContainer.emit("components-awake");
+		
+		this.timer_icon = timer_icon;
 	}
 	
+	private timer_icon: Phaser.GameObjects.Image|undefined;
+	
 	/* START-USER-CODE */
+	public static readonly PHASE_GAMESTART = 'PHASE_GAMESTART'
+	public static readonly EVENT_TIMER_DONE = 'EVENT_TIMER_DONE'
 
 	// Write your code here.
 
 	create() {
 		this.editorCreate();
-
-		this.events.emit('start');
+		this.events.emit(Level.PHASE_GAMESTART);
+		
 	}
-
+	update(time) {
+	}
 	/* END-USER-CODE */
 }
 
