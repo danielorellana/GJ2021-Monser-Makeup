@@ -32,6 +32,16 @@
                 "key": "monster001_head"
             },
             {
+                "url": "assets/makeup_compare.png",
+                "type": "image",
+                "key": "makeup_compare"
+            },
+            {
+                "url": "assets/makup_test.png",
+                "type": "image",
+                "key": "makup_test"
+            },
+            {
                 "url": "assets/mirror_scene_frame.png",
                 "type": "image",
                 "key": "mirror_scene_frame"
