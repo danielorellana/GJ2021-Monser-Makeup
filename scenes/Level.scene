@@ -69,15 +69,27 @@
             "y": 300
         },
         {
-            "type": "Image",
-            "id": "f769b0d9-e0e4-4419-913e-94cdd924f842",
-            "label": "timer_icon",
-            "components": [],
-            "texture": {
-                "key": "timer_icon"
-            },
-            "x": 56,
-            "y": 60
+            "type": "Container",
+            "id": "9146768e-b1d1-4517-b35d-d60448a52dea",
+            "label": "timerContainer",
+            "components": [
+                "Timer"
+            ],
+            "Timer.icon": "timer_icon",
+            "x": 48,
+            "y": 45,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "f769b0d9-e0e4-4419-913e-94cdd924f842",
+                    "label": "timer_icon",
+                    "scope": "CLASS",
+                    "components": [],
+                    "texture": {
+                        "key": "timer_icon"
+                    }
+                }
+            ]
         }
     ],
     "plainObjects": [],
