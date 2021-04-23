@@ -30,6 +30,23 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "MakeupBottle",
+            "baseClass": "UserComponent",
+            "gameObjectType": "Phaser.GameObjects.Image",
+            "properties": [
+                {
+                    "name": "tint",
+                    "label": "tint",
+                    "tooltip": "tint",
+                    "defValue": "0xff0000",
+                    "type": {
+                        "id": "expression",
+                        "expressionType": "number"
+                    }
+                }
+            ]
         }
     ],
     "meta": {

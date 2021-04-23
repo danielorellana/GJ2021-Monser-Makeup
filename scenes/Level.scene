@@ -75,6 +75,52 @@
             },
             "x": 56,
             "y": 60
+        },
+        {
+            "type": "Container",
+            "id": "a33f7703-ec73-4f07-b89e-5db8f67296fb",
+            "label": "makeup",
+            "components": [],
+            "x": 303,
+            "y": 474,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "11028816-f657-4f99-83b8-60ce6d960a80",
+                    "label": "bottle_red",
+                    "components": [
+                        "MakeupBottle"
+                    ],
+                    "MakeupBottle.tint": "bottle_red.tintTopLeft",
+                    "texture": {
+                        "key": "makeup_bottle"
+                    },
+                    "x": 50,
+                    "y": -6,
+                    "tintTopLeft": "#ff0000",
+                    "tintTopRight": "#ff0000",
+                    "tintBottomLeft": "#ff0000",
+                    "tintBottomRight": "#ff0000"
+                },
+                {
+                    "type": "Image",
+                    "id": "579590fa-c9ae-42e9-845d-12a8efd786e7",
+                    "label": "bottle_blue",
+                    "components": [
+                        "MakeupBottle"
+                    ],
+                    "MakeupBottle.tint": "bottle_blue.tintTopLeft",
+                    "texture": {
+                        "key": "makeup_bottle"
+                    },
+                    "x": -25,
+                    "y": 2,
+                    "tintTopLeft": "#0000ff",
+                    "tintTopRight": "#0000ff",
+                    "tintBottomLeft": "#0000ff",
+                    "tintBottomRight": "#0000ff"
+                }
+            ]
         }
     ],
     "plainObjects": [],
