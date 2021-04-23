@@ -12,6 +12,31 @@
                 "key": "character_rig"
             },
             {
+                "url": "assets/customers/customer_elf_head.png",
+                "type": "image",
+                "key": "customer_elf_head"
+            },
+            {
+                "url": "assets/customers/customer_frank_head.png",
+                "type": "image",
+                "key": "customer_frank_head"
+            },
+            {
+                "url": "assets/customers/customer_goblin_head.png",
+                "type": "image",
+                "key": "customer_goblin_head"
+            },
+            {
+                "url": "assets/customers/customer_pig_head.png",
+                "type": "image",
+                "key": "customer_pig_head"
+            },
+            {
+                "url": "assets/customers/customer_steve_head.png",
+                "type": "image",
+                "key": "customer_steve_head"
+            },
+            {
                 "url": "assets/dino.png",
                 "type": "image",
                 "key": "dino"
