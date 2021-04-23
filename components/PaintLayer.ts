@@ -14,7 +14,7 @@ class PaintLayer extends UserComponent {
 		
 		/* START-USER-CTR-CODE */
 		window.addEventListener("contextmenu", e => e.preventDefault());
-		this.render_texture = this.gameObject.scene.add.renderTexture(0,0, 200, 200);
+		this.render_texture = this.gameObject.scene.add.renderTexture(0,0, 400, 400);
 		this.gameObject.add(this.render_texture);
 		/* END-USER-CTR-CODE */
 	}
@@ -64,7 +64,7 @@ class PaintLayer extends UserComponent {
 		}) as Phaser.GameObjects.Sprite;
 		
 		this.render_texture.setInteractive();
-		this.render_texture.input.hitArea.setTo(0,0, 200, 200);
+		this.render_texture.input.hitArea.setTo(0,0, 400, 400);
 
 		this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
 

@@ -2,14 +2,14 @@
     "section1": {
         "files": [
             {
-                "url": "assets/character_rig.png",
-                "type": "image",
-                "key": "character_rig"
-            },
-            {
                 "url": "assets/brush_default.png",
                 "type": "image",
                 "key": "brush_default"
+            },
+            {
+                "url": "assets/character_rig.png",
+                "type": "image",
+                "key": "character_rig"
             },
             {
                 "url": "assets/dino.png",
@@ -22,9 +22,14 @@
                 "key": "mirror_scene_frame"
             },
             {
-                "url": "assets/timer_icon.png",
+                "url": "assets/customers/monster001_face_neutral.png",
                 "type": "image",
-                "key": "timer_icon"
+                "key": "monster001_face_neutral"
+            },
+            {
+                "url": "assets/customers/monster001_head.png",
+                "type": "image",
+                "key": "monster001_head"
             },
             {
                 "url": "assets/pig_bg.png",
@@ -45,6 +50,11 @@
                 "url": "assets/pig_mask.png",
                 "type": "image",
                 "key": "pig_mask"
+            },
+            {
+                "url": "assets/timer_icon.png",
+                "type": "image",
+                "key": "timer_icon"
             }
         ]
     },
