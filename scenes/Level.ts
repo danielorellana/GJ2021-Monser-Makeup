@@ -15,11 +15,11 @@ class Level extends Phaser.Scene {
 	
 	editorCreate() {
 		
-		// background
-		const background = this.add.rectangle(400, 286, 900, 600);
-		background.isFilled = true;
-		background.fillColor = 5194562;
+		// mirror_scene_frame
+		this.add.image(400, 300, "mirror_scene_frame");
 		
+		// timer_icon
+		this.add.image(51, 49, "timer_icon");
 		// rectangle
 		const rectangle = this.add.rectangle(400, 541, 900, 128);
 		rectangle.isFilled = true;

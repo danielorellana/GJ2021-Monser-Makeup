@@ -1,0 +1,69 @@
+
+character_rig.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/arm
+  rotate: false
+  xy: 2, 2
+  size: 240, 98
+  orig: 240, 98
+  offset: 0, 0
+  index: -1
+images/body
+  rotate: false
+  xy: 252, 263
+  size: 196, 241
+  orig: 196, 241
+  offset: 0, 0
+  index: -1
+images/face_accessory
+  rotate: false
+  xy: 2, 104
+  size: 191, 129
+  orig: 191, 129
+  offset: 0, 0
+  index: -1
+images/face_angry
+  rotate: false
+  xy: 452, 325
+  size: 113, 179
+  orig: 113, 179
+  offset: 0, 0
+  index: -1
+images/face_happy
+  rotate: false
+  xy: 441, 90
+  size: 129, 169
+  orig: 129, 169
+  offset: 0, 0
+  index: -1
+images/face_neutral
+  rotate: false
+  xy: 197, 108
+  size: 107, 52
+  orig: 107, 52
+  offset: 0, 0
+  index: -1
+images/face_shocked
+  rotate: false
+  xy: 197, 164
+  size: 113, 69
+  orig: 113, 69
+  offset: 0, 0
+  index: -1
+images/head
+  rotate: false
+  xy: 2, 237
+  size: 246, 267
+  orig: 246, 267
+  offset: 0, 0
+  index: -1
+images/leg
+  rotate: false
+  xy: 314, 62
+  size: 123, 197
+  orig: 176, 208
+  offset: 0, 0
+  index: -1
