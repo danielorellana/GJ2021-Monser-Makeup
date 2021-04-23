@@ -15,12 +15,6 @@ class Level extends Phaser.Scene {
 	
 	editorCreate() {
 		
-		// mirror_scene_frame
-		this.add.image(400, 300, "mirror_scene_frame");
-		
-		// timer_icon
-		this.add.image(400, 541, "__DEFAULT");
-		
 		// pig_customer
 		const pig_customer = this.add.container(92, 100);
 		pig_customer.scaleX = 2;
@@ -41,6 +35,12 @@ class Level extends Phaser.Scene {
 		image.visible = false;
 		pig_customer.add(image);
 		
+		// mirror_scene_frame
+		this.add.image(400, 300, "mirror_scene_frame");
+		
+		// timer_icon
+		this.add.image(56, 60, "timer_icon");
+		
 		// paintlayer (components)
 		const paintlayerPaintLayer = new PaintLayer(paintlayer);
 		paintlayerPaintLayer.brush = "brush_default";
@@ -53,8 +53,9 @@ class Level extends Phaser.Scene {
 	// Write your code here.
 
 	create() {
-
 		this.editorCreate();
+
+		this.events.emit('start');
 	}
 
 	/* END-USER-CODE */

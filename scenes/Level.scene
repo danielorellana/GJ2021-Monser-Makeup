@@ -9,25 +9,6 @@
     },
     "displayList": [
         {
-            "type": "Image",
-            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
-            "label": "mirror_scene_frame",
-            "components": [],
-            "texture": {
-                "key": "mirror_scene_frame"
-            },
-            "x": 400,
-            "y": 300
-        },
-        {
-            "type": "Image",
-            "id": "f769b0d9-e0e4-4419-913e-94cdd924f842",
-            "label": "timer_icon",
-            "components": [],
-            "x": 400,
-            "y": 541
-        },
-        {
             "type": "Container",
             "id": "e0e4ac68-671e-4510-b4df-10018b4bf168",
             "label": "pig_customer",
@@ -72,6 +53,28 @@
                     "visible": false
                 }
             ]
+        },
+        {
+            "type": "Image",
+            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
+            "label": "mirror_scene_frame",
+            "components": [],
+            "texture": {
+                "key": "mirror_scene_frame"
+            },
+            "x": 400,
+            "y": 300
+        },
+        {
+            "type": "Image",
+            "id": "f769b0d9-e0e4-4419-913e-94cdd924f842",
+            "label": "timer_icon",
+            "components": [],
+            "texture": {
+                "key": "timer_icon"
+            },
+            "x": 56,
+            "y": 60
         }
     ],
     "plainObjects": [],
