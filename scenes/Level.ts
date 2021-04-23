@@ -15,33 +15,29 @@ class Level extends Phaser.Scene {
 	
 	editorCreate() {
 		
-		// mirror_scene_frame
-		this.add.image(400, 300, "mirror_scene_frame");
-		
-		// timer_icon
-		this.add.image(51, 49, "timer_icon");
-		// rectangle
-		const rectangle = this.add.rectangle(400, 541, 900, 128);
-		rectangle.isFilled = true;
-		rectangle.fillColor = 15329253;
-		
 		// pig_customer
 		const pig_customer = this.add.container(55, 0);
 		
 		// image_1
-		const image_1 = this.add.image(0, 0, "pig_image");
+		const image_1 = this.add.image(115, 266, "pig_image");
 		image_1.setOrigin(0, 0);
 		pig_customer.add(image_1);
 		
 		// paintlayer
-		const paintlayer = this.add.container(0, 0);
+		const paintlayer = this.add.container(115, 266);
 		pig_customer.add(paintlayer);
 		
 		// image
-		const image = this.add.image(0, 0, "pig_lines");
+		const image = this.add.image(115, 266, "pig_lines");
 		image.setOrigin(0, 0);
 		image.visible = false;
 		pig_customer.add(image);
+		
+		// mirror_scene_frame
+		this.add.image(400, 300, "mirror_scene_frame");
+		
+		// timer_icon
+		this.add.image(56, 60, "timer_icon");
 		
 		// paintlayer (components)
 		const paintlayerPaintLayer = new PaintLayer(paintlayer);
@@ -55,8 +51,9 @@ class Level extends Phaser.Scene {
 	// Write your code here.
 
 	create() {
-
 		this.editorCreate();
+
+		this.events.emit('start');
 	}
 
 	/* END-USER-CODE */
