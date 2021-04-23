@@ -25,18 +25,17 @@
             "label": "timer_icon",
             "components": [],
             "x": 400,
-            "y": 541,
-            "isFilled": true,
-            "fillColor": "#e9e7e5",
-            "width": 900,
-            "height": 128
+            "y": 541
         },
         {
             "type": "Container",
             "id": "e0e4ac68-671e-4510-b4df-10018b4bf168",
             "label": "pig_customer",
             "components": [],
-            "x": 55,
+            "x": 92,
+            "y": 100,
+            "scaleX": 2,
+            "scaleY": 2,
             "list": [
                 {
                     "type": "Image",

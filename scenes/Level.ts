@@ -19,14 +19,12 @@ class Level extends Phaser.Scene {
 		this.add.image(400, 300, "mirror_scene_frame");
 		
 		// timer_icon
-		this.add.image(51, 49, "timer_icon");
-		// rectangle
-		const rectangle = this.add.rectangle(400, 541, 900, 128);
-		rectangle.isFilled = true;
-		rectangle.fillColor = 15329253;
+		this.add.image(400, 541, "__DEFAULT");
 		
 		// pig_customer
-		const pig_customer = this.add.container(55, 0);
+		const pig_customer = this.add.container(92, 100);
+		pig_customer.scaleX = 2;
+		pig_customer.scaleY = 2;
 		
 		// image_1
 		const image_1 = this.add.image(0, 0, "pig_image");

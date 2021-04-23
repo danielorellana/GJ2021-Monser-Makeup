@@ -42,10 +42,11 @@ class PaintLayer extends UserComponent {
 		this.render_texture.erase(this.brush, x, y);
 	}
 
-	update() {
-		const local = this.gameObject.getLocalPoint(0, 0);
-		this.mask_object.x = -local.x
-		this.mask_object.y = -local.y
+	update() {		
+		let matrix = this.gameObject.getWorldTransformMatrix();
+		this.mask_object.setPosition(matrix.tx, matrix.ty);
+		this.mask_object.setScale(matrix.scaleX, matrix.scaleY);
+		this.mask_object.setRotation(matrix.rotation);
 	}
 	awake() {
 
