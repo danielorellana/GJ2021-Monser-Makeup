@@ -14,7 +14,7 @@ class PaintLayer extends UserComponent {
 		
 		/* START-USER-CTR-CODE */
 		window.addEventListener("contextmenu", e => e.preventDefault());
-		this.render_texture = this.gameObject.scene.add.renderTexture(0,0, 200, 200);
+		this.render_texture = this.gameObject.scene.add.renderTexture(0,0, 400, 400);
 		this.gameObject.add(this.render_texture);
 		// @ts-ignore
 		this.pixel_match_function = new pixelmatch_lib().pixelmatch;
@@ -34,6 +34,7 @@ class PaintLayer extends UserComponent {
 	private render_texture : Phaser.GameObjects.RenderTexture;
 	private mask_object : Phaser.GameObjects.Sprite;
 
+	private locked : boolean = false;
 	private is_drawing : boolean = false;
 	private last_pos = { x : 0, y : 0 }
 
@@ -66,10 +67,14 @@ class PaintLayer extends UserComponent {
 		}
 	}
 
+	lock(locked) {
+		this.locked = locked;
+	}
 
-	saveAsPNG() {
-		let width = 200;
-		let height = 200;
+
+	getMakeupScore() {
+		let width = 400;
+		let height = 400;
 
 		let webgl_target = this.render_texture.renderTarget;
 
@@ -134,11 +139,11 @@ class PaintLayer extends UserComponent {
 
 		let out = this.pixel_match_function(compare_data.data, drawing_image_data, output_data.data, width, height, {threshold : 0.15})
 
+		let pct = out / (width * height) * 100;
 		console.log(out);
 		console.log(output_data);
 
-		console.log(out / (width * height) * 100)
-
+		console.log(pct);
 
 		var canvas = document.createElement("canvas"); //  new HTMLCanvasElement();
 		canvas.width = output_data.width;
@@ -146,24 +151,44 @@ class PaintLayer extends UserComponent {
 			var ctx = canvas.getContext("2d");
 			ctx.putImageData(output_data, 0, 0);
 			document.lastChild.appendChild(ctx.canvas);
+
+		return pct;
 	}
 
 	erase(x : number, y : number) {
-		this.saveAsPNG();
 		x = Math.round(x) - 8;
 		y = Math.round(y) - 8;
 		this.render_texture.erase(this.brush, x, y);
 	}
 
+	onTimesUp() {
+		// this.lock(true);
+		this.getMakeupScore();
+		this.clear();
+	}
 	clear() {
 		this.render_texture.clear();
 	}
 
 	update() {		
+		if (!this.mask_object) {
+			return;
+		}
 		let matrix = this.gameObject.getWorldTransformMatrix();
 		this.mask_object.setPosition(matrix.tx, matrix.ty);
 		this.mask_object.setScale(matrix.scaleX, matrix.scaleY);
 		this.mask_object.setRotation(matrix.rotation);
+	}
+
+	setMask(mask) {
+		this.mask_object = this.scene.make.sprite({
+			x : 0,
+			y : 0,
+			origin : 0,
+			key : mask,
+			add : false,
+		}) as Phaser.GameObjects.Sprite;
+		this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
 	}
 	awake() {
 		console.log();
@@ -174,23 +199,17 @@ class PaintLayer extends UserComponent {
 			key : this.brush,
 			add : false,
 		});
-
 		this.brush_sprite.tint = 0xff0000;
 
-		this.mask_object = this.scene.make.sprite({
-			x : 0,
-			y : 0,
-			origin : 0,
-			key : this.mask_id,
-			add : false,
-		}) as Phaser.GameObjects.Sprite;
 		
 		this.render_texture.setInteractive();
-		this.render_texture.input.hitArea.setTo(0,0, 200, 200);
+		this.render_texture.input.hitArea.setTo(0,0, 400, 400);
 
-		this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
 
 		const handlePointer = (pointer : Phaser.Input.Pointer) => {
+			if (this.locked) {
+				return;
+			}
 			const local = this.gameObject.getLocalPoint(pointer.x, pointer.y);
 			let x = local.x;
 			let y = local.y;
@@ -210,7 +229,7 @@ class PaintLayer extends UserComponent {
 		this.render_texture.on("pointerdown", handlePointer);
 		this.render_texture.on("pointermove", handlePointer);
 
-		this.gameObject.scene.events.on(Level.EVENT_TIMER_DONE, this.clear, this);
+		this.gameObject.scene.events.on(Level.EVENT_TIMER_DONE, this.onTimesUp, this);
 	}
 	/* END-USER-CODE */
 }
