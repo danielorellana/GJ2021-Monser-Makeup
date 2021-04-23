@@ -53,6 +53,7 @@ class Level extends Phaser.Scene {
 		
 		// timerContainer (components)
 		const timerContainerTimer = new Timer(timerContainer);
+		timerContainerTimer.timer_length = 13;
 		timerContainerTimer.icon = timer_icon;
 		timerContainer.emit("components-awake");
 		

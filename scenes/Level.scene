@@ -72,6 +72,7 @@
             "components": [
                 "Timer"
             ],
+            "Timer.timer_length": 13,
             "Timer.icon": "timer_icon",
             "x": 48,
             "y": 45,
