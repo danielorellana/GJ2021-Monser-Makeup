@@ -16,19 +16,21 @@ class Level extends Phaser.Scene {
 	editorCreate() {
 		
 		// pig_customer
-		const pig_customer = this.add.container(55, 0);
+		const pig_customer = this.add.container(92, 100);
+		pig_customer.scaleX = 2;
+		pig_customer.scaleY = 2;
 		
 		// image_1
-		const image_1 = this.add.image(115, 266, "pig_image");
+		const image_1 = this.add.image(0, 0, "pig_image");
 		image_1.setOrigin(0, 0);
 		pig_customer.add(image_1);
 		
 		// paintlayer
-		const paintlayer = this.add.container(115, 266);
+		const paintlayer = this.add.container(0, 0);
 		pig_customer.add(paintlayer);
 		
 		// image
-		const image = this.add.image(115, 266, "pig_lines");
+		const image = this.add.image(0, 0, "pig_lines");
 		image.setOrigin(0, 0);
 		image.visible = false;
 		pig_customer.add(image);

@@ -13,7 +13,10 @@
             "id": "e0e4ac68-671e-4510-b4df-10018b4bf168",
             "label": "pig_customer",
             "components": [],
-            "x": 55,
+            "x": 92,
+            "y": 100,
+            "scaleX": 2,
+            "scaleY": 2,
             "list": [
                 {
                     "type": "Image",
@@ -23,8 +26,6 @@
                     "texture": {
                         "key": "pig_image"
                     },
-                    "x": 115,
-                    "y": 266,
                     "originX": 0,
                     "originY": 0
                 },
@@ -37,8 +38,6 @@
                     ],
                     "PaintLayer.brush": "brush_default",
                     "PaintLayer.mask_id": "pig_mask",
-                    "x": 115,
-                    "y": 266,
                     "list": []
                 },
                 {
@@ -49,8 +48,6 @@
                     "texture": {
                         "key": "pig_lines"
                     },
-                    "x": 115,
-                    "y": 266,
                     "originX": 0,
                     "originY": 0,
                     "visible": false
