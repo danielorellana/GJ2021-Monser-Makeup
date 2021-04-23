@@ -20,7 +20,7 @@ class MakeupBottle extends UserComponent {
 	}
 	
 	private gameObject: Phaser.GameObjects.Image;
-	public tint: number;
+	public tint: number = 0xff0000;
 	
 	/* START-USER-CODE */
 

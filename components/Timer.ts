@@ -3,13 +3,14 @@
 /* START OF COMPILED CODE */
 
 class Timer extends UserComponent {
-  constructor(gameObject: Phaser.GameObjects.Container) {
-    super(gameObject);
-
-    this.gameObject = gameObject;
-    (gameObject as any)["__Timer"] = this;
-
-    /* START-USER-CTR-CODE */
+	
+	constructor(gameObject: Phaser.GameObjects.Container) {
+		super(gameObject);
+		
+		this.gameObject = gameObject;
+		(gameObject as any)["__Timer"] = this;
+		
+		/* START-USER-CTR-CODE */
     let rect_bg = this.scene.add.rectangle(
       0,
       0,
@@ -39,19 +40,19 @@ class Timer extends UserComponent {
     this.gameObject.add(rect_frame);
 
     /* END-USER-CTR-CODE */
-  }
-
-  static getComponent(gameObject: Phaser.GameObjects.Container): Timer {
-    return (gameObject as any)["__Timer"];
-  }
-
-  private gameObject: Phaser.GameObjects.Container;
-  public progress_bar_key: string = "timer_icon";
-  public timer_icon: string = "timer_icon";
-  public timer_length: number = 30;
-  public icon: any | undefined;
-
-  /* START-USER-CODE */
+	}
+	
+	static getComponent(gameObject: Phaser.GameObjects.Container): Timer {
+		return (gameObject as any)["__Timer"];
+	}
+	
+	private gameObject: Phaser.GameObjects.Container;
+	public progress_bar_key: string = "timer_icon";
+	public timer_icon: string = "timer_icon";
+	public timer_length: number = 30;
+	public icon: any|undefined;
+	
+	/* START-USER-CODE */
   private progress_bar: Phaser.GameObjects.Rectangle;
   private mask_object: Phaser.GameObjects.Sprite;
 

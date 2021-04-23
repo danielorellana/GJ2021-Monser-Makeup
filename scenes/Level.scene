@@ -10,64 +10,6 @@
     "displayList": [
         {
             "type": "Container",
-            "id": "e0e4ac68-671e-4510-b4df-10018b4bf168",
-            "label": "pig_customer",
-            "components": [],
-            "x": 92,
-            "y": 100,
-            "scaleX": 2,
-            "scaleY": 2,
-            "visible": false,
-            "list": [
-                {
-                    "type": "Image",
-                    "id": "ee4c6784-0005-4ed7-bb6b-ebb8f1cb81da",
-                    "label": "image_1",
-                    "components": [],
-                    "texture": {
-                        "key": "pig_image"
-                    },
-                    "originX": 0,
-                    "originY": 0
-                },
-                {
-                    "type": "Container",
-                    "id": "7a79a084-8873-4661-bbb2-49441055cae6",
-                    "label": "paintlayer",
-                    "components": [
-                        "PaintLayer"
-                    ],
-                    "PaintLayer.brush": "brush_default",
-                    "PaintLayer.mask_id": "pig_mask",
-                    "list": []
-                },
-                {
-                    "type": "Image",
-                    "id": "fc77b512-2557-4e1e-8f52-60576434ff88",
-                    "label": "image",
-                    "components": [],
-                    "texture": {
-                        "key": "pig_lines"
-                    },
-                    "originX": 0,
-                    "originY": 0,
-                    "visible": false
-                }
-            ]
-        },
-        {
-            "type": "Image",
-            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
-            "label": "mirror_scene_frame",
-            "components": [],
-            "texture": {
-                "key": "mirror_scene_frame"
-            },
-            "x": 400,
-            "y": 300
-        },
-        {
-            "type": "Container",
             "id": "a33f7703-ec73-4f07-b89e-5db8f67296fb",
             "label": "makeup",
             "components": [],
@@ -113,6 +55,25 @@
             ]
         },
         {
+            "prefabId": "21d66c14-5e62-4666-9aed-94b1c40c4bcc",
+            "id": "15acc7a4-9714-44a4-9825-441baca7924d",
+            "label": "customer",
+            "components": [],
+            "x": 68,
+            "y": 33
+        },
+        {
+            "type": "Image",
+            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
+            "label": "mirror_scene_frame",
+            "components": [],
+            "texture": {
+                "key": "mirror_scene_frame"
+            },
+            "x": 400,
+            "y": 300
+        },
+        {
             "type": "Container",
             "id": "9146768e-b1d1-4517-b35d-d60448a52dea",
             "label": "timerContainer",
@@ -133,49 +94,6 @@
                     "texture": {
                         "key": "timer_icon"
                     }
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "id": "15acc7a4-9714-44a4-9825-441baca7924d",
-            "label": "monster1",
-            "components": [],
-            "x": 58,
-            "y": 68,
-            "list": [
-                {
-                    "type": "Image",
-                    "id": "3727ba08-5d6d-4bcc-b61d-cd5b3aae8afd",
-                    "label": "monster001_head",
-                    "components": [],
-                    "texture": {
-                        "key": "monster001_head"
-                    },
-                    "originX": 0,
-                    "originY": 0
-                },
-                {
-                    "type": "Container",
-                    "id": "1c8ee19b-e616-44f9-9bff-77673dd0f52a",
-                    "label": "paintlayer_001",
-                    "components": [
-                        "PaintLayer"
-                    ],
-                    "PaintLayer.brush": "brush_default",
-                    "PaintLayer.mask_id": "monster001_head",
-                    "list": []
-                },
-                {
-                    "type": "Image",
-                    "id": "b6c11f8a-06a8-422c-b4e6-54ea45eea390",
-                    "label": "face",
-                    "components": [],
-                    "texture": {
-                        "key": "monster001_face_neutral"
-                    },
-                    "originX": 0,
-                    "originY": 0
                 }
             ]
         }

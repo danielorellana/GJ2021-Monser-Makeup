@@ -159,7 +159,7 @@ class PaintLayer extends UserComponent {
 		this.render_texture.clear();
 	}
 
-	update() {		
+	update() {	
 		let matrix = this.gameObject.getWorldTransformMatrix();
 		this.mask_object.setPosition(matrix.tx, matrix.ty);
 		this.mask_object.setScale(matrix.scaleX, matrix.scaleY);

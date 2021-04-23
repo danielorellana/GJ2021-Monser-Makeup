@@ -12,6 +12,31 @@
                 "key": "character_rig"
             },
             {
+                "url": "assets/customers/customer_elf_head.png",
+                "type": "image",
+                "key": "customer_elf_head"
+            },
+            {
+                "url": "assets/customers/customer_frank_head.png",
+                "type": "image",
+                "key": "customer_frank_head"
+            },
+            {
+                "url": "assets/customers/customer_goblin_head.png",
+                "type": "image",
+                "key": "customer_goblin_head"
+            },
+            {
+                "url": "assets/customers/customer_pig_head.png",
+                "type": "image",
+                "key": "customer_pig_head"
+            },
+            {
+                "url": "assets/customers/customer_steve_head.png",
+                "type": "image",
+                "key": "customer_steve_head"
+            },
+            {
                 "url": "assets/dino.png",
                 "type": "image",
                 "key": "dino"
@@ -20,16 +45,6 @@
                 "url": "assets/makeup_bottle.png",
                 "type": "image",
                 "key": "makeup_bottle"
-            },
-            {
-                "url": "assets/customers/monster001_face_neutral.png",
-                "type": "image",
-                "key": "monster001_face_neutral"
-            },
-            {
-                "url": "assets/customers/monster001_head.png",
-                "type": "image",
-                "key": "monster001_head"
             },
             {
                 "url": "assets/makeup_compare.png",
