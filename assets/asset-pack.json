@@ -17,9 +17,9 @@
                 "key": "dino"
             },
             {
-                "url": "assets/mirror_scene_frame.png",
+                "url": "assets/makeup_bottle.png",
                 "type": "image",
-                "key": "mirror_scene_frame"
+                "key": "makeup_bottle"
             },
             {
                 "url": "assets/customers/monster001_face_neutral.png",
@@ -30,6 +30,11 @@
                 "url": "assets/customers/monster001_head.png",
                 "type": "image",
                 "key": "monster001_head"
+            },
+            {
+                "url": "assets/mirror_scene_frame.png",
+                "type": "image",
+                "key": "mirror_scene_frame"
             },
             {
                 "url": "assets/pig_bg.png",

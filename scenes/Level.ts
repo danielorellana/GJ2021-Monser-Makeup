@@ -62,6 +62,24 @@ class Level extends Phaser.Scene {
 		const face = this.add.image(0, 0, "monster001_face_neutral");
 		face.setOrigin(0, 0);
 		monster1.add(face);
+		// makeup
+		const makeup = this.add.container(303, 474);
+		
+		// bottle_red
+		const bottle_red = this.add.image(50, -6, "makeup_bottle");
+		bottle_red.tintTopLeft = 16711680;
+		bottle_red.tintTopRight = 16711680;
+		bottle_red.tintBottomLeft = 16711680;
+		bottle_red.tintBottomRight = 16711680;
+		makeup.add(bottle_red);
+		
+		// bottle_blue
+		const bottle_blue = this.add.image(-25, 2, "makeup_bottle");
+		bottle_blue.tintTopLeft = 255;
+		bottle_blue.tintTopRight = 255;
+		bottle_blue.tintBottomLeft = 255;
+		bottle_blue.tintBottomRight = 255;
+		makeup.add(bottle_blue);
 		
 		// paintlayer (components)
 		const paintlayerPaintLayer = new PaintLayer(paintlayer);
@@ -69,6 +87,15 @@ class Level extends Phaser.Scene {
 		paintlayerPaintLayer.mask_id = "pig_mask";
 		paintlayer.emit("components-awake");
 		
+		// bottle_red (components)
+		const bottle_redMakeupBottle = new MakeupBottle(bottle_red);
+		bottle_redMakeupBottle.tint = bottle_red.tintTopLeft;
+		bottle_red.emit("components-awake");
+		
+		// bottle_blue (components)
+		const bottle_blueMakeupBottle = new MakeupBottle(bottle_blue);
+		bottle_blueMakeupBottle.tint = bottle_blue.tintTopLeft;
+		bottle_blue.emit("components-awake");
 		// timerContainer (components)
 		const timerContainerTimer = new Timer(timerContainer);
 		timerContainerTimer.timer_length = 13;
