@@ -4,7 +4,8 @@
         "skipLibCheck": true,
         "target": "esnext",
         "outFile": "game.js",
-        "strict": false                
+        "strict": false,
+        "allowJs": true           
     },
     "include": [
         "./**/*.ts",
