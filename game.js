@@ -92,10 +92,14 @@ class PaintLayer extends UserComponent {
         y = Math.round(y) - 8;
         this.render_texture.erase(this.brush, x, y);
     }
+    clear() {
+        this.render_texture.clear();
+    }
     update() {
-        const local = this.gameObject.getLocalPoint(0, 0);
-        this.mask_object.x = -local.x;
-        this.mask_object.y = -local.y;
+        let matrix = this.gameObject.getWorldTransformMatrix();
+        this.mask_object.setPosition(matrix.tx, matrix.ty);
+        this.mask_object.setScale(matrix.scaleX, matrix.scaleY);
+        this.mask_object.setRotation(matrix.rotation);
     }
     awake() {
         this.mask_object = this.scene.make.sprite({
@@ -121,6 +125,7 @@ class PaintLayer extends UserComponent {
         };
         this.render_texture.on("pointerdown", handlePointer);
         this.render_texture.on("pointermove", handlePointer);
+        this.gameObject.scene.events.on(Level.EVENT_TIMER_DONE, this.clear, this);
     }
 }
 /* END OF COMPILED CODE */
@@ -157,6 +162,61 @@ class PushOnClick extends UserComponent {
 // You can write more code here
 // You can write more code here
 /* START OF COMPILED CODE */
+class Timer extends UserComponent {
+    constructor(gameObject) {
+        super(gameObject);
+        this.progress_bar_key = "timer_icon";
+        this.timer_icon = "timer_icon";
+        this.timer_length = 30;
+        this.elapsed = 0;
+        this.initial_bar_width = 650;
+        this.gameObject = gameObject;
+        gameObject["__Timer"] = this;
+        /* START-USER-CTR-CODE */
+        let rect_bg = this.scene.add.rectangle(0, 0, this.initial_bar_width, 16, 0x000000, 1);
+        rect_bg.displayOriginX = 0;
+        this.gameObject.add(rect_bg);
+        this.progress_bar = this.scene.add.rectangle(0, 0, this.initial_bar_width, 16, 0xff732e, 1);
+        this.progress_bar.displayOriginX = 0;
+        this.gameObject.add(this.progress_bar);
+        let rect_frame = this.scene.add.graphics({
+            lineStyle: { color: 0xffffff, width: 4 },
+        });
+        rect_frame.strokeRoundedRect(0, -8, this.initial_bar_width, 16, 3);
+        this.gameObject.add(rect_frame);
+        /* END-USER-CTR-CODE */
+    }
+    static getComponent(gameObject) {
+        return gameObject["__Timer"];
+    }
+    awake() {
+        this.scene.events.on(Level.PHASE_GAMESTART, this.startTimer, this);
+        this.gameObject.bringToTop(this.icon);
+    }
+    startTimer() {
+        this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
+        this.scene.events.on(Level.EVENT_TIMER_DONE, this.reset, this);
+    }
+    reset() {
+        this.elapsed = 0;
+        this.progress_bar.width = this.initial_bar_width;
+    }
+    updateTimer(time, delta) {
+        this.elapsed += delta / 1000;
+        if (this.elapsed > this.timer_length) {
+            this.progress_bar.width = 0;
+            this.scene.events.emit(Level.EVENT_TIMER_DONE);
+        }
+        else {
+            let perc = 1 - this.elapsed / this.timer_length;
+            this.progress_bar.width = this.initial_bar_width * perc;
+        }
+    }
+}
+/* END OF COMPILED CODE */
+// You can write more code here
+// You can write more code here
+/* START OF COMPILED CODE */
 class Level extends Phaser.Scene {
     constructor() {
         super("Level");
@@ -165,16 +225,10 @@ class Level extends Phaser.Scene {
         /* END-USER-CTR-CODE */
     }
     editorCreate() {
-        // background
-        const background = this.add.rectangle(400, 286, 900, 600);
-        background.isFilled = true;
-        background.fillColor = 5194562;
-        // rectangle
-        const rectangle = this.add.rectangle(400, 541, 900, 128);
-        rectangle.isFilled = true;
-        rectangle.fillColor = 15329253;
         // pig_customer
-        const pig_customer = this.add.container(55, 0);
+        const pig_customer = this.add.container(92, 100);
+        pig_customer.scaleX = 2;
+        pig_customer.scaleY = 2;
         // image_1
         const image_1 = this.add.image(0, 0, "pig_image");
         image_1.setOrigin(0, 0);
@@ -187,18 +241,36 @@ class Level extends Phaser.Scene {
         image.setOrigin(0, 0);
         image.visible = false;
         pig_customer.add(image);
+        // mirror_scene_frame
+        this.add.image(400, 300, "mirror_scene_frame");
+        // timerContainer
+        const timerContainer = this.add.container(48, 45);
+        // timer_icon
+        const timer_icon = this.add.image(0, 0, "timer_icon");
+        timerContainer.add(timer_icon);
         // paintlayer (components)
         const paintlayerPaintLayer = new PaintLayer(paintlayer);
         paintlayerPaintLayer.brush = "brush_default";
         paintlayerPaintLayer.mask_id = "pig_mask";
         paintlayer.emit("components-awake");
+        // timerContainer (components)
+        const timerContainerTimer = new Timer(timerContainer);
+        timerContainerTimer.timer_length = 13;
+        timerContainerTimer.icon = timer_icon;
+        timerContainer.emit("components-awake");
+        this.timer_icon = timer_icon;
     }
-    /* START-USER-CODE */
     // Write your code here.
     create() {
         this.editorCreate();
+        this.events.emit(Level.PHASE_GAMESTART);
+    }
+    update(time) {
     }
 }
+/* START-USER-CODE */
+Level.PHASE_GAMESTART = 'PHASE_GAMESTART';
+Level.EVENT_TIMER_DONE = 'EVENT_TIMER_DONE';
 /* END OF COMPILED CODE */
 // You can write more code here
 

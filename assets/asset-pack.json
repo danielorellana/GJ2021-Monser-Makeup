@@ -2,6 +2,11 @@
     "section1": {
         "files": [
             {
+                "url": "assets/character_rig.png",
+                "type": "image",
+                "key": "character_rig"
+            },
+            {
                 "url": "assets/brush_default.png",
                 "type": "image",
                 "key": "brush_default"
@@ -10,6 +15,16 @@
                 "url": "assets/dino.png",
                 "type": "image",
                 "key": "dino"
+            },
+            {
+                "url": "assets/mirror_scene_frame.png",
+                "type": "image",
+                "key": "mirror_scene_frame"
+            },
+            {
+                "url": "assets/timer_icon.png",
+                "type": "image",
+                "key": "timer_icon"
             },
             {
                 "url": "assets/pig_bg.png",
