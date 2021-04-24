@@ -92,6 +92,7 @@ class PaintLayer extends UserComponent {
         super(gameObject);
         this.brush = "";
         this.mask_id = "";
+        this.locked = false;
         this.is_drawing = false;
         this.last_pos = { x: 0, y: 0 };
         this.gameObject = gameObject;
@@ -125,9 +126,12 @@ class PaintLayer extends UserComponent {
             i += density;
         }
     }
-    saveAsPNG() {
-        let width = 200;
-        let height = 200;
+    lock(locked) {
+        this.locked = locked;
+    }
+    getMakeupScore() {
+        let width = 400;
+        let height = 400;
         let webgl_target = this.render_texture.renderTarget;
         let mask_img = this.scene.textures.get(this.mask_id).getSourceImage(0);
         var drawing_image_data;
@@ -156,7 +160,7 @@ class PaintLayer extends UserComponent {
             let canvas_ctx = this.render_texture.context;
             drawing_image_data = canvas_ctx.getImageData(0, 0, width, height).data;
         }
-        var compare_template = this.scene.textures.get('makup_test').getSourceImage(0);
+        var compare_template = this.scene.textures.get('makeup_compare').getSourceImage(0);
         let compare_canvas = document.createElement('canvas');
         let compare_ctx = compare_canvas.getContext('2d');
         compare_canvas.width = width;
@@ -169,33 +173,51 @@ class PaintLayer extends UserComponent {
         console.log(compare_canvas.toDataURL("image/png"));
         var output_data = new ImageData(width, height);
         let out = this.pixel_match_function(compare_data.data, drawing_image_data, output_data.data, width, height, { threshold: 0.15 });
+        let pct = out / (width * height) * 100;
         console.log(out);
         console.log(output_data);
-        console.log(out / (width * height) * 100);
+        console.log(pct);
         var canvas = document.createElement("canvas"); //  new HTMLCanvasElement();
         canvas.width = output_data.width;
         canvas.height = output_data.height;
         var ctx = canvas.getContext("2d");
         ctx.putImageData(output_data, 0, 0);
         document.lastChild.appendChild(ctx.canvas);
+        return pct;
     }
     erase(x, y) {
-        this.saveAsPNG();
         x = Math.round(x) - 8;
         y = Math.round(y) - 8;
         this.render_texture.erase(this.brush, x, y);
+    }
+    onTimesUp() {
+        // this.lock(true);
+        this.getMakeupScore();
+        this.clear();
     }
     clear() {
         this.render_texture.clear();
     }
     update() {
+        if (!this.mask_object) {
+            return;
+        }
         let matrix = this.gameObject.getWorldTransformMatrix();
         this.mask_object.setPosition(matrix.tx, matrix.ty);
         this.mask_object.setScale(matrix.scaleX, matrix.scaleY);
         this.mask_object.setRotation(matrix.rotation);
     }
+    setMask(mask) {
+        this.mask_object = this.scene.make.sprite({
+            x: 0,
+            y: 0,
+            origin: 0,
+            key: mask,
+            add: false,
+        });
+        this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
+    }
     awake() {
-        console.log();
         this.brush_sprite = this.scene.make.image({
             x: 0,
             y: 0,
@@ -204,17 +226,12 @@ class PaintLayer extends UserComponent {
             add: false,
         });
         this.brush_sprite.tint = 0xff0000;
-        this.mask_object = this.scene.make.sprite({
-            x: 0,
-            y: 0,
-            origin: 0,
-            key: this.mask_id,
-            add: false,
-        });
         this.render_texture.setInteractive();
         this.render_texture.input.hitArea.setTo(0, 0, 400, 400);
-        this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
         const handlePointer = (pointer) => {
+            if (this.locked) {
+                return;
+            }
             const local = this.gameObject.getLocalPoint(pointer.x, pointer.y);
             let x = local.x;
             let y = local.y;
@@ -232,7 +249,7 @@ class PaintLayer extends UserComponent {
         };
         this.render_texture.on("pointerdown", handlePointer);
         this.render_texture.on("pointermove", handlePointer);
-        this.gameObject.scene.events.on(Level.EVENT_TIMER_DONE, this.clear, this);
+        this.gameObject.scene.events.on(GameEvent.TIMER_COMPLETE, this.onTimesUp, this);
     }
 }
 /* END OF COMPILED CODE */
@@ -297,12 +314,12 @@ class Timer extends UserComponent {
         return gameObject["__Timer"];
     }
     awake() {
-        this.scene.events.on(Level.PHASE_GAMESTART, this.startTimer, this);
+        this.scene.events.on(GameEvent.GAME_START, this.startTimer, this);
         this.gameObject.bringToTop(this.icon);
     }
     startTimer() {
         this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
-        this.scene.events.on(Level.EVENT_TIMER_DONE, this.reset, this);
+        this.scene.events.on(GameEvent.TIMER_COMPLETE, this.reset, this);
     }
     reset() {
         this.elapsed = 0;
@@ -312,7 +329,8 @@ class Timer extends UserComponent {
         this.elapsed += delta / 1000;
         if (this.elapsed > this.timer_length) {
             this.progress_bar.width = 0;
-            this.scene.events.emit(Level.EVENT_TIMER_DONE);
+            this.scene.events.off(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
+            this.scene.events.emit(GameEvent.TIMER_COMPLETE);
         }
         else {
             let perc = 1 - this.elapsed / this.timer_length;
@@ -343,27 +361,39 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
         const paintlayer_001PaintLayer = new PaintLayer(paintlayer_001);
         paintlayer_001PaintLayer.brush = "brush_default";
         paintlayer_001PaintLayer.mask_id = "customer_pig_head";
+        this.base_sprite = base_sprite;
         /* START-USER-CTR-CODE */
-        let customer = this.scene.getCurrentCustomerId();
-        base_sprite.setTexture('customer_' + customer + '_head');
-        paintlayer_001PaintLayer.mask_id = 'customer_' + customer + '_head';
-        paintlayer_001PaintLayer.awake();
+        this.paint_layer = paintlayer_001PaintLayer;
         face_sprite.visible = false;
-        this.scene.events.on(Level.EVENT_NEW_CUSTOMER, (data) => {
-            console.log(data);
-        });
+        this.scene.events.on(GameEvent.NEW_CUSTOMER, this.onNewCustomer, this);
         /* END-USER-CTR-CODE */
+    }
+    onNewCustomer(customer_id) {
+        this.base_sprite.setTexture('customer_' + customer_id + '_head');
+        this.paint_layer.mask_id = 'customer_' + customer_id + '_head';
+        this.paint_layer.setMask('customer_' + customer_id + '_head');
+        this.paint_layer.awake();
     }
 }
 /* END OF COMPILED CODE */
 // You can write more code here
 // You can write more code here
+var GameEvent;
+(function (GameEvent) {
+    GameEvent["GAME_INTRO"] = "GAME_INTRO";
+    GameEvent["GAME_START"] = "GAME_START";
+    GameEvent["TIMER_COMPLETE"] = "TIMER_DONE";
+    GameEvent["GAME_RESULT"] = "RESULT";
+    GameEvent["NEW_CUSTOMER"] = "NEW_CUSTOMER";
+    GameEvent["GAME_END"] = "GAME_END";
+})(GameEvent || (GameEvent = {}));
 /* START OF COMPILED CODE */
 class Level extends Phaser.Scene {
     constructor() {
         super("Level");
-        this.customers = ['pig', 'frank', 'steve', 'goblin', 'elf'];
-        this.customerIndex = -1;
+        /* START-USER-CODE */
+        this.customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
+        this.customer_index = -1;
         /* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
@@ -385,9 +415,15 @@ class Level extends Phaser.Scene {
         bottle_blue.tintBottomLeft = 255;
         bottle_blue.tintBottomRight = 255;
         makeup.add(bottle_blue);
-        // customer
-        const customer = new CustomerDisplayerPrefab(this, 68, 33);
-        this.add.existing(customer);
+        // rectangle
+        const rectangle = this.add.rectangle(273, 251, 128, 128);
+        rectangle.scaleX = 3.4764732519125743;
+        rectangle.scaleY = 3.2089789491501506;
+        rectangle.isFilled = true;
+        rectangle.fillColor = 7627610;
+        // customer_mirror
+        const customer_mirror = new CustomerDisplayerPrefab(this, 68, 33);
+        this.add.existing(customer_mirror);
         // mirror_scene_frame
         this.add.image(400, 300, "mirror_scene_frame");
         // timerContainer
@@ -395,6 +431,21 @@ class Level extends Phaser.Scene {
         // timer_icon
         const timer_icon = this.add.image(0, 0, "timer_icon");
         timerContainer.add(timer_icon);
+        // text_whatwill
+        const text_whatwill = this.add.text(639, 132, "", {});
+        text_whatwill.setOrigin(0.5, 0.5);
+        text_whatwill.text = "What will it be?";
+        text_whatwill.setStyle({
+            backgroundColor: "",
+            fontSize: "24px",
+            strokeThickness: 1,
+            "shadow.offsetX": 3,
+            "shadow.offsetY": 3,
+            "shadow.stroke": true,
+        });
+        // customer_foreground
+        const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
+        customer_foreground.setOrigin(0, 0);
         // bottle_red (components)
         const bottle_redMakeupBottle = new MakeupBottle(bottle_red);
         bottle_redMakeupBottle.tint = bottle_red.tintTopLeft;
@@ -408,15 +459,75 @@ class Level extends Phaser.Scene {
         timerContainerTimer.timer_length = 13;
         timerContainerTimer.icon = timer_icon;
         timerContainer.emit("components-awake");
+        this.customer_mirror = customer_mirror;
         this.timer_icon = timer_icon;
+        this.text_whatwill = text_whatwill;
+        this.customer_foreground = customer_foreground;
     }
     // Write your code here.
     create() {
-        this.shuffle(this.customers);
-        this.selectNewCustomer();
+        this.shuffle(this.customers_ids);
         this.editorCreate();
-        this.events.emit(Level.PHASE_GAMESTART);
+        this.text_whatwill.visible = false;
+        this.events.on(GameEvent.GAME_INTRO, this.introCustomer, this);
+        this.events.on(GameEvent.NEW_CUSTOMER, this.onNewCustomer, this);
+        this.events.on(GameEvent.TIMER_COMPLETE, this.onGameTimerComplete, this);
+        this.events.on(GameEvent.NEW_CUSTOMER, this.loopGame, this);
+        this.events.on(GameEvent.GAME_END, this.onGameComplete, this);
+        this.selectNewCustomer();
+        this.events.emit(GameEvent.GAME_INTRO);
     }
+    selectNewCustomer() {
+        this.customer_index++;
+        this.events.emit(GameEvent.NEW_CUSTOMER, this.getCurrentCustomerId());
+    }
+    getCurrentCustomerId() {
+        return this.customers_ids[this.customer_index];
+    }
+    introCustomer() {
+        this.customer_mirror.x = 700;
+        this.tweens.add({
+            duration: 1000,
+            targets: this.customer_mirror,
+            ease: Phaser.Math.Easing.Quintic.Out,
+            x: 68,
+            onUpdate: (tween, target) => {
+                this.customer_foreground.x = target.x + 250;
+            },
+            completeDelay: 1000,
+            onComplete: () => {
+                this.text_whatwill.visible = false;
+                this.startDrawingGame();
+            },
+        });
+        this.text_whatwill.visible = true;
+        // this.text_whatwill.rotation = -Math.PI / 16;
+        // this.tweens.add({
+        //   duration: 300,
+        //   targets: this.text_whatwill,
+        //   ease: Phaser.Math.Easing.Quintic.InOut,
+        //   rotation: Math.PI / 16,
+        //   yoyo: true,
+        //   repeat: 10,
+        // });
+    }
+    startDrawingGame() {
+        this.events.emit(GameEvent.GAME_START);
+    }
+    onNewCustomer(customer_id) {
+        this.customer_foreground.setTexture("customer_" + customer_id + "_head_back");
+    }
+    onGameTimerComplete() {
+        if (this.customer_index === this.customers_ids.length - 1) {
+        }
+        else {
+            this.selectNewCustomer();
+            this.events.emit(GameEvent.GAME_INTRO);
+        }
+    }
+    loopGame() { }
+    onGameComplete() { }
+    // Util
     shuffle(array) {
         let currentIndex = array.length;
         let temporaryValue;
@@ -433,20 +544,7 @@ class Level extends Phaser.Scene {
         }
         return array;
     }
-    selectNewCustomer() {
-        this.customerIndex++;
-        this.events.emit(Level.EVENT_NEW_CUSTOMER, {
-            customer_id: this.getCurrentCustomerId()
-        });
-    }
-    getCurrentCustomerId() {
-        return this.customers[this.customerIndex];
-    }
 }
-/* START-USER-CODE */
-Level.PHASE_GAMESTART = "PHASE_GAMESTART";
-Level.EVENT_TIMER_DONE = "EVENT_TIMER_DONE";
-Level.EVENT_NEW_CUSTOMER = "EVENT_NEW_CUSTOMER";
 /* END OF COMPILED CODE */
 // You can write more code here
 
