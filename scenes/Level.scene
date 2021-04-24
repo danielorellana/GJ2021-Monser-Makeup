@@ -10,6 +10,37 @@
     "displayList": [
         {
             "type": "Container",
+            "id": "c29efc74-3d84-435f-ac01-8f29bfe84770",
+            "label": "customer_container",
+            "scope": "CLASS",
+            "components": [
+                "CustomerManager"
+            ],
+            "CustomerManager.id": "customer_manager",
+            "x": 68,
+            "y": 33,
+            "list": [
+                {
+                    "prefabId": "21d66c14-5e62-4666-9aed-94b1c40c4bcc",
+                    "id": "15acc7a4-9714-44a4-9825-441baca7924d",
+                    "label": "customer",
+                    "components": []
+                }
+            ]
+        },
+        {
+            "type": "Image",
+            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
+            "label": "mirror_scene_frame",
+            "components": [],
+            "texture": {
+                "key": "mirror_scene_frame"
+            },
+            "x": 400,
+            "y": 300
+        },
+        {
+            "type": "Container",
             "id": "a33f7703-ec73-4f07-b89e-5db8f67296fb",
             "label": "makeup",
             "components": [],
@@ -53,25 +84,6 @@
                     "tintBottomRight": "#0000ff"
                 }
             ]
-        },
-        {
-            "prefabId": "21d66c14-5e62-4666-9aed-94b1c40c4bcc",
-            "id": "15acc7a4-9714-44a4-9825-441baca7924d",
-            "label": "customer",
-            "components": [],
-            "x": 68,
-            "y": 33
-        },
-        {
-            "type": "Image",
-            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
-            "label": "mirror_scene_frame",
-            "components": [],
-            "texture": {
-                "key": "mirror_scene_frame"
-            },
-            "x": 400,
-            "y": 300
         },
         {
             "type": "Container",

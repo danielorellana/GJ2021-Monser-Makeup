@@ -91,6 +91,22 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "CustomerManager",
+            "baseClass": "UserComponent",
+            "gameObjectType": "Phaser.GameObjects.Container",
+            "properties": [
+                {
+                    "name": "id",
+                    "label": "id",
+                    "tooltip": "id",
+                    "defValue": "",
+                    "type": {
+                        "id": "string"
+                    }
+                }
+            ]
         }
     ],
     "meta": {

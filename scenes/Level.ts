@@ -14,6 +14,16 @@ class Level extends Phaser.Scene {
 	
 	editorCreate() {
 		
+		// customer_container
+		const customer_container = this.add.container(68, 33);
+		
+		// customer
+		const customer = new CustomerDisplayerPrefab(this, 0, 0);
+		customer_container.add(customer);
+		
+		// mirror_scene_frame
+		this.add.image(400, 300, "mirror_scene_frame");
+		
 		// makeup
 		const makeup = this.add.container(303, 474);
 		
@@ -33,19 +43,17 @@ class Level extends Phaser.Scene {
 		bottle_blue.tintBottomRight = 255;
 		makeup.add(bottle_blue);
 		
-		// customer
-		const customer = new CustomerDisplayerPrefab(this, 68, 33);
-		this.add.existing(customer);
-		
-		// mirror_scene_frame
-		this.add.image(400, 300, "mirror_scene_frame");
-		
 		// timerContainer
 		const timerContainer = this.add.container(48, 45);
 		
 		// timer_icon
 		const timer_icon = this.add.image(0, 0, "timer_icon");
 		timerContainer.add(timer_icon);
+		
+		// customer_container (components)
+		const customer_containerCustomerManager = new CustomerManager(customer_container);
+		customer_containerCustomerManager.id = "customer_manager";
+		customer_container.emit("components-awake");
 		
 		// bottle_red (components)
 		const bottle_redMakeupBottle = new MakeupBottle(bottle_red);
@@ -63,9 +71,11 @@ class Level extends Phaser.Scene {
 		timerContainerTimer.icon = timer_icon;
 		timerContainer.emit("components-awake");
 		
+		this.customer_container = customer_container;
 		this.timer_icon = timer_icon;
 	}
 	
+	private customer_container: Phaser.GameObjects.Container|undefined;
 	private timer_icon: Phaser.GameObjects.Image|undefined;
 	
 	/* START-USER-CODE */
@@ -74,17 +84,33 @@ class Level extends Phaser.Scene {
   public static readonly EVENT_NEW_CUSTOMER = "EVENT_NEW_CUSTOMER";
 
   private customers = ['pig', 'frank', 'steve', 'goblin','elf'];
+	private activeCustomerPrefab : CustomerDisplayerPrefab;
   private customerIndex = -1;
+
+	private starting_score = 0;
 
   // Write your code here.
 
   create() {
     this.shuffle(this.customers);
-    this.selectNewCustomer();
-
     this.editorCreate();
+
+		this.events.on(Level.EVENT_TIMER_DONE, this.onTimerDone, this);
+
+    this.createNewCustomer();
     this.events.emit(Level.PHASE_GAMESTART);
   }
+
+	onTimerDone() {
+		let score = this.activeCustomerPrefab.getMakeupScore(true);
+
+		console.log('starting difference percent : ' + this.starting_score);
+		console.log('ending difference percent : ' + score);
+
+		this.removeOldCustomer();
+
+		this.createNewCustomer();
+	}
 
   shuffle(array: string[]) {
     let currentIndex = array.length;
@@ -106,11 +132,32 @@ class Level extends Phaser.Scene {
     return array;
   }
 
+	removeOldCustomer() {
+		this.customer_container.removeAll(true);
+
+	}
+
+	createNewCustomer() {
+		this.removeOldCustomer();
+
+
+		let customer = new CustomerDisplayerPrefab(this, 0, 0);
+		this.add.existing(customer);
+
+		this.selectNewCustomer();
+		customer.setCustomer(this.getCurrentCustomerId());
+
+		this.starting_score = customer.getMakeupScore();
+
+		this.activeCustomerPrefab = customer;
+		this.customer_container.add(customer);
+	}
+
   selectNewCustomer() {
     this.customerIndex++;
-	this.events.emit(Level.EVENT_NEW_CUSTOMER, {
-		customer_id: this.getCurrentCustomerId()
-	});
+		this.events.emit(Level.EVENT_NEW_CUSTOMER, {
+			customer_id: this.getCurrentCustomerId()
+		});
   }
 
   getCurrentCustomerId() {

@@ -13,9 +13,9 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		base_sprite.setOrigin(0, 0);
 		this.add(base_sprite);
 		
-		// paintlayer_001
-		const paintlayer_001 = scene.add.container(0, 0);
-		this.add(paintlayer_001);
+		// paintlayer
+		const paintlayer = scene.add.container(0, 0);
+		this.add(paintlayer);
 		
 		// face_sprite
 		const face_sprite = scene.add.image(0, 0, "customerFrank_head");
@@ -23,27 +23,47 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		face_sprite.visible = false;
 		this.add(face_sprite);
 		
-		// paintlayer_001 (components)
-		const paintlayer_001PaintLayer = new PaintLayer(paintlayer_001);
-		paintlayer_001PaintLayer.brush = "brush_default";
-		paintlayer_001PaintLayer.mask_id = "customer_pig_head";
+		// paintlayer (components)
+		const paintlayerPaintLayer = new PaintLayer(paintlayer);
+		paintlayerPaintLayer.brush = "brush_default";
+		paintlayerPaintLayer.mask_id = "customer_pig_head";
+		
+		this.base_sprite = base_sprite;
 		
 		/* START-USER-CTR-CODE */
-		let customer = (this.scene as Level).getCurrentCustomerId();
-		base_sprite.setTexture('customer_' + customer + '_head');
+		// let customer = (this.scene as Level).getCurrentCustomerId();
+		// base_sprite.setTexture('customer_' + customer + '_head');
 		
-		paintlayer_001PaintLayer.mask_id = 'customer_' + customer + '_head';
-		paintlayer_001PaintLayer.awake();
+		this.paint_layer = paintlayerPaintLayer;
+		
 
 		face_sprite.visible = false;
-
-		this.scene.events.on(Level.EVENT_NEW_CUSTOMER, (data) => {
-			console.log(data);
-		});
 		/* END-USER-CTR-CODE */
 	}
 	
+	private base_sprite: Phaser.GameObjects.Image|undefined;
+	
 	/* START-USER-CODE */
+
+	setCustomer(customer_id) {
+
+		this.base_sprite.setTexture('customer_' + customer_id + '_head');
+
+		let mask_texture_id = customer_id + '_mask';
+		this.paint_layer.setMakeupMask(mask_texture_id);
+		this.paint_layer.init();
+
+		this.base_score = this.paint_layer.getMakeupScore();
+
+	}
+
+	getMakeupScore(showcanvas = false) {
+		return this.paint_layer.getMakeupScore(showcanvas);
+	}
+
+	private paint_layer : PaintLayer;
+
+	public base_score : number = 0;
 
 	// Write your code here.
 

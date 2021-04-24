@@ -42,6 +42,21 @@
                 "key": "dino"
             },
             {
+                "url": "assets/customers/elf_mask.png",
+                "type": "image",
+                "key": "elf_mask"
+            },
+            {
+                "url": "assets/customers/frank_mask.png",
+                "type": "image",
+                "key": "frank_mask"
+            },
+            {
+                "url": "assets/customers/goblin_mask.png",
+                "type": "image",
+                "key": "goblin_mask"
+            },
+            {
                 "url": "assets/makeup_bottle.png",
                 "type": "image",
                 "key": "makeup_bottle"
@@ -62,24 +77,14 @@
                 "key": "mirror_scene_frame"
             },
             {
-                "url": "assets/pig_bg.png",
-                "type": "image",
-                "key": "pig_bg"
-            },
-            {
-                "url": "assets/pig_image.png",
-                "type": "image",
-                "key": "pig_image"
-            },
-            {
-                "url": "assets/pig_lines.png",
-                "type": "image",
-                "key": "pig_lines"
-            },
-            {
-                "url": "assets/pig_mask.png",
+                "url": "assets/customers/pig_mask.png",
                 "type": "image",
                 "key": "pig_mask"
+            },
+            {
+                "url": "assets/customers/steve_mask.png",
+                "type": "image",
+                "key": "steve_mask"
             },
             {
                 "url": "assets/timer_icon.png",

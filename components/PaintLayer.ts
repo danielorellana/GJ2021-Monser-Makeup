@@ -53,18 +53,20 @@ class PaintLayer extends UserComponent {
 		x = Math.round(x);
 		y = Math.round(y);
 
-		let density = 1;
+		let density = 3;
 		let i = 0;
 
+		this.render_texture.beginDraw();
 		while (i <= dist) {
 			let amount = i / (Math.max(1, dist));
 
 			const draw_x = x + delta.x * amount + (Math.random() - 0.5) * 5;
 			const draw_y = y + delta.y * amount + (Math.random() - 0.5) * 5;
 
-			this.render_texture.draw(this.brush_sprite, draw_x, draw_y);
+			this.render_texture.batchDraw(this.brush_sprite, draw_x, draw_y);
 			i += density;
 		}
+		this.render_texture.endDraw();
 	}
 
 	lock(locked) {
@@ -72,7 +74,7 @@ class PaintLayer extends UserComponent {
 	}
 
 
-	getMakeupScore() {
+	getMakeupScore(showcanvas = false) {
 		let width = 400;
 		let height = 400;
 
@@ -83,7 +85,6 @@ class PaintLayer extends UserComponent {
 		var drawing_image_data;
 
 		if (webgl_target) {
-
 			let gl = (this.scene.renderer as Phaser.Renderer.WebGL.WebGLRenderer).gl;
 			var framebuffer = gl.createFramebuffer();
 
@@ -112,11 +113,8 @@ class PaintLayer extends UserComponent {
 			out_ctx.drawImage(mask_img, 0, -height);
 
 			drawing_image_data = out_ctx.getImageData(0, 0, width, height).data;
-
-			
 			
 		} else {
-
 			var texture_canvas = this.render_texture.context.canvas as HTMLCanvasElement;
 			let canvas_ctx = this.render_texture.context;
 			drawing_image_data = canvas_ctx.getImageData(0, 0, width, height).data;
@@ -133,24 +131,21 @@ class PaintLayer extends UserComponent {
 		compare_ctx.drawImage(mask_img, 0, -height);
 
 		let compare_data = compare_ctx.getImageData(0, 0, width, height);
-		console.log(compare_canvas.toDataURL("image/png"));
 		
     var output_data = new ImageData(width, height);
 
 		let out = this.pixel_match_function(compare_data.data, drawing_image_data, output_data.data, width, height, {threshold : 0.15})
 
 		let pct = out / (width * height) * 100;
-		console.log(out);
-		console.log(output_data);
 
-		console.log(pct);
-
-		var canvas = document.createElement("canvas"); //  new HTMLCanvasElement();
-		canvas.width = output_data.width;
-		canvas.height = output_data.height;
+		if (showcanvas) {
+			var canvas = document.createElement("canvas"); //  new HTMLCanvasElement();
+			canvas.width = output_data.width;
+			canvas.height = output_data.height;
 			var ctx = canvas.getContext("2d");
 			ctx.putImageData(output_data, 0, 0);
 			document.lastChild.appendChild(ctx.canvas);
+		}
 
 		return pct;
 	}
@@ -162,10 +157,9 @@ class PaintLayer extends UserComponent {
 	}
 
 	onTimesUp() {
-		// this.lock(true);
-		this.getMakeupScore();
-		this.clear();
+		 this.lock(true);
 	}
+
 	clear() {
 		this.render_texture.clear();
 	}
@@ -180,7 +174,8 @@ class PaintLayer extends UserComponent {
 		this.mask_object.setRotation(matrix.rotation);
 	}
 
-	setMask(mask) {
+	setMakeupMask(mask) {
+		this.mask_id = mask;
 		this.mask_object = this.scene.make.sprite({
 			x : 0,
 			y : 0,
@@ -190,8 +185,7 @@ class PaintLayer extends UserComponent {
 		}) as Phaser.GameObjects.Sprite;
 		this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
 	}
-	awake() {
-		console.log();
+	init() {
 		this.brush_sprite = this.scene.make.image({
 			x : 0,
 			y : 0,
@@ -200,11 +194,9 @@ class PaintLayer extends UserComponent {
 			add : false,
 		});
 		this.brush_sprite.tint = 0xff0000;
-
 		
 		this.render_texture.setInteractive();
 		this.render_texture.input.hitArea.setTo(0,0, 400, 400);
-
 
 		const handlePointer = (pointer : Phaser.Input.Pointer) => {
 			if (this.locked) {

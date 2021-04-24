@@ -18,6 +18,7 @@
                     "type": "Image",
                     "id": "3727ba08-5d6d-4bcc-b61d-cd5b3aae8afd",
                     "label": "base_sprite",
+                    "scope": "CLASS",
                     "components": [],
                     "texture": {
                         "key": "customer_pig_head"
@@ -28,7 +29,7 @@
                 {
                     "type": "Container",
                     "id": "1c8ee19b-e616-44f9-9bff-77673dd0f52a",
-                    "label": "paintlayer_001",
+                    "label": "paintlayer",
                     "components": [
                         "PaintLayer"
                     ],
