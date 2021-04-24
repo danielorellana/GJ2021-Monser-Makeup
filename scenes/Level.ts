@@ -91,9 +91,9 @@ class Level extends Phaser.Scene {
 		const request_head = this.add.image(0, 0, "customer_frank_head");
 		request_container.add(request_head);
 		
-		// request_makeup
-		const request_makeup = this.add.image(0, 0, "frank_makeup_1");
-		request_container.add(request_makeup);
+		// makeup_list
+		const makeup_list = this.add.container(0, 0);
+		request_container.add(makeup_list);
 		
 		// customer_foreground
 		const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
@@ -131,7 +131,7 @@ class Level extends Phaser.Scene {
 		this.text_whatwill = text_whatwill;
 		this.request_container = request_container;
 		this.request_head = request_head;
-		this.request_makeup = request_makeup;
+		this.makeup_list = makeup_list;
 		this.customer_foreground = customer_foreground;
 	}
 	
@@ -141,7 +141,7 @@ class Level extends Phaser.Scene {
 	private text_whatwill: Phaser.GameObjects.Text|undefined;
 	public request_container: Phaser.GameObjects.Container|undefined;
 	public request_head: Phaser.GameObjects.Image|undefined;
-	public request_makeup: Phaser.GameObjects.Image|undefined;
+	public makeup_list: Phaser.GameObjects.Container|undefined;
 	public customer_foreground: Phaser.GameObjects.Image|undefined;
 	
 	/* START-USER-CODE */
@@ -275,8 +275,19 @@ class Level extends Phaser.Scene {
       "customer_" + customer_id + "_head_back"
     );
 
-		let index = 1;
-		customer.setMakeupRequest(customer_id + '_makeup_' + index);
+
+		let templates = [];
+		for (let i = 1; i <= 10; i ++) {
+			console.log(customer_id + '_makeup_' + i)
+			templates.push(customer_id + '_makeup_' + i);
+		}
+		this.shuffle(templates);
+
+		let amount = 1 + Math.round(Math.random() * 2);
+
+		let requests = templates.slice(0, amount);
+
+		customer.setMakeupRequest(requests) ;//customer_id + '_makeup_' + index);
 		customer.setBrush(this.active_paint);
 
 		this.starting_score = customer.getMakeupScore();
@@ -285,7 +296,20 @@ class Level extends Phaser.Scene {
 		//show preview head
 		this.request_container.visible = true;
 		this.request_head.setTexture('customer_' + customer_id + '_head');
-		this.request_makeup.setTexture(customer_id + '_makeup_' + index);
+
+		this.makeup_list.removeAll(true);
+
+		requests.forEach(entry => {
+			let img = this.make.image({
+				x : 0,
+				y : 0,
+				key : entry,
+				add : true,
+			});
+			this.makeup_list.add(img);
+		})
+
+		// this.request_makeup.setTexture(customer_id + '_makeup_' + index);
 
 
 		this.activeCustomerPrefab = customer;
@@ -297,7 +321,8 @@ class Level extends Phaser.Scene {
   }
 
   getCurrentCustomerId() {
-    return this.customers_ids[this.customer_index];
+		return 'frank';
+    // return this.customers_ids[this.customer_index];
   }
   /* END-USER-CODE */
 }

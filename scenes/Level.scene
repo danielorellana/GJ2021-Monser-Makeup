@@ -191,14 +191,12 @@
                     }
                 },
                 {
-                    "type": "Image",
-                    "id": "4444687f-031c-4f81-8122-abed356eb2fe",
-                    "label": "request_makeup",
+                    "type": "Container",
+                    "id": "f7cdf80a-6b94-4ec8-8eaa-3911de2be018",
+                    "label": "makeup_list",
                     "scope": "PUBLIC",
                     "components": [],
-                    "texture": {
-                        "key": "frank_makeup_1"
-                    }
+                    "list": []
                 }
             ]
         },

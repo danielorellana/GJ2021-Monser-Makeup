@@ -34,7 +34,7 @@ class PaintLayer extends UserComponent {
 	private render_texture : Phaser.GameObjects.RenderTexture;
 	private mask_object : Phaser.GameObjects.Sprite;
 
-	private makeup_request_template : string;
+	private makeup_request_templates : string[];
 
 	private locked : boolean = false;
 	private is_drawing : boolean = false;
@@ -123,14 +123,18 @@ class PaintLayer extends UserComponent {
 			let canvas_ctx = this.render_texture.context;
 			drawing_image_data = canvas_ctx.getImageData(0, 0, width, height).data;
 		}
-		var compare_template = this.scene.textures.get(this.makeup_request_template).getSourceImage(0) as HTMLImageElement;
 		
 		let compare_canvas = document.createElement('canvas');
 		let compare_ctx = compare_canvas.getContext('2d');
 		compare_canvas.width = width;
 		compare_canvas.height = height;
 		compare_ctx.scale(1, -1)
-		compare_ctx.drawImage(compare_template, 0, -height)
+
+		this.makeup_request_templates.forEach(entry => {
+			var compare_template = this.scene.textures.get(entry).getSourceImage(0) as HTMLImageElement;
+			compare_ctx.drawImage(compare_template, 0, -height)
+
+		})
 		compare_ctx.globalCompositeOperation = 'destination-in';
 		compare_ctx.drawImage(mask_img, 0, -height);
 
@@ -185,7 +189,7 @@ class PaintLayer extends UserComponent {
 	}
 
 	setMakeupRequest(template_id) {
-		this.makeup_request_template = template_id;
+		this.makeup_request_templates = template_id;
 	}
 
 	setMakeupMask(mask) {

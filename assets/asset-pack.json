@@ -77,9 +77,54 @@
                 "key": "elf_mask"
             },
             {
-                "url": "assets/customers/frank_makeup_1.png",
+                "url": "assets/customers/requests/frank/frank_makeup_1.png",
                 "type": "image",
                 "key": "frank_makeup_1"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_10.png",
+                "type": "image",
+                "key": "frank_makeup_10"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_2.png",
+                "type": "image",
+                "key": "frank_makeup_2"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_3.png",
+                "type": "image",
+                "key": "frank_makeup_3"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_4.png",
+                "type": "image",
+                "key": "frank_makeup_4"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_5.png",
+                "type": "image",
+                "key": "frank_makeup_5"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_6.png",
+                "type": "image",
+                "key": "frank_makeup_6"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_7.png",
+                "type": "image",
+                "key": "frank_makeup_7"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_8.png",
+                "type": "image",
+                "key": "frank_makeup_8"
+            },
+            {
+                "url": "assets/customers/requests/frank/frank_makeup_9.png",
+                "type": "image",
+                "key": "frank_makeup_9"
             },
             {
                 "url": "assets/customers/frank_mask.png",
