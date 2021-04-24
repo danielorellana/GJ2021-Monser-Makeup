@@ -54,6 +54,10 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		this.paint_layer.init();
 	}
 
+	setBrush(data) {
+		this.paint_layer.setBrush(data);
+	}
+
 	setMakeupRequest(template_id) {
 		this.paint_layer.setMakeupRequest(template_id);
 	}

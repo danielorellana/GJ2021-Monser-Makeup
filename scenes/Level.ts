@@ -5,6 +5,7 @@ enum GameEvent {
   TIMER_COMPLETE = "TIMER_DONE",
   GAME_RESULT = "RESULT",
   NEW_CUSTOMER = "NEW_CUSTOMER",
+	MAKEUP_SELECTED = "MAKEUP_SELECTED",
   GAME_END = "GAME_END",
 }
 /* START OF COMPILED CODE */
@@ -24,25 +25,6 @@ class Level extends Phaser.Scene {
 		// mirror_scene_frame
 		this.add.image(400, 300, "mirror_scene_frame");
 		
-		// makeup
-		const makeup = this.add.container(303, 474);
-		
-		// bottle_red
-		const bottle_red = this.add.image(50, -6, "makeup_bottle");
-		bottle_red.tintTopLeft = 16711680;
-		bottle_red.tintTopRight = 16711680;
-		bottle_red.tintBottomLeft = 16711680;
-		bottle_red.tintBottomRight = 16711680;
-		makeup.add(bottle_red);
-		
-		// bottle_blue
-		const bottle_blue = this.add.image(-25, 2, "makeup_bottle");
-		bottle_blue.tintTopLeft = 255;
-		bottle_blue.tintTopRight = 255;
-		bottle_blue.tintBottomLeft = 255;
-		bottle_blue.tintBottomRight = 255;
-		makeup.add(bottle_blue);
-		
 		// rectangle
 		const rectangle = this.add.rectangle(273, 251, 128, 128);
 		rectangle.scaleX = 3.4764732519125743;
@@ -59,6 +41,33 @@ class Level extends Phaser.Scene {
 		
 		// mirror_scene_frame
 		this.add.image(400, 300, "mirror_scene_frame");
+		
+		// makeup
+		const makeup = this.add.container(160, 494);
+		
+		// bottle_red
+		const bottle_red = this.add.image(91, -24, "makeup_bottle");
+		bottle_red.tintTopLeft = 16711680;
+		bottle_red.tintTopRight = 16711680;
+		bottle_red.tintBottomLeft = 16711680;
+		bottle_red.tintBottomRight = 16711680;
+		makeup.add(bottle_red);
+		
+		// bottle_blue
+		const bottle_blue = this.add.image(7, 7, "makeup_bottle");
+		bottle_blue.tintTopLeft = 255;
+		bottle_blue.tintTopRight = 255;
+		bottle_blue.tintBottomLeft = 255;
+		bottle_blue.tintBottomRight = 255;
+		makeup.add(bottle_blue);
+		
+		// bottle_blue_1
+		const bottle_blue_1 = this.add.image(-69, -16, "makeup_bottle");
+		bottle_blue_1.tintTopLeft = 65280;
+		bottle_blue_1.tintTopRight = 65280;
+		bottle_blue_1.tintBottomLeft = 65280;
+		bottle_blue_1.tintBottomRight = 65280;
+		makeup.add(bottle_blue_1);
 		
 		// timerContainer
 		const timerContainer = this.add.container(48, 45);
@@ -90,6 +99,11 @@ class Level extends Phaser.Scene {
 		const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
 		customer_foreground.setOrigin(0, 0);
 		
+		// customer_container (components)
+		const customer_containerCustomerManager = new CustomerManager(customer_container);
+		customer_containerCustomerManager.id = "customer_manager";
+		customer_container.emit("components-awake");
+		
 		// bottle_red (components)
 		const bottle_redMakeupBottle = new MakeupBottle(bottle_red);
 		bottle_redMakeupBottle.tint = bottle_red.tintTopLeft;
@@ -100,10 +114,10 @@ class Level extends Phaser.Scene {
 		bottle_blueMakeupBottle.tint = bottle_blue.tintTopLeft;
 		bottle_blue.emit("components-awake");
 		
-		// customer_container (components)
-		const customer_containerCustomerManager = new CustomerManager(customer_container);
-		customer_containerCustomerManager.id = "customer_manager";
-		customer_container.emit("components-awake");
+		// bottle_blue_1 (components)
+		const bottle_blue_1MakeupBottle = new MakeupBottle(bottle_blue_1);
+		bottle_blue_1MakeupBottle.tint = bottle_blue.tintTopLeft;
+		bottle_blue_1.emit("components-awake");
 		
 		// timerContainer (components)
 		const timerContainerTimer = new Timer(timerContainer);
@@ -112,6 +126,7 @@ class Level extends Phaser.Scene {
 		timerContainer.emit("components-awake");
 		
 		this.customer_container = customer_container;
+		this.bottle_red = bottle_red;
 		this.timer_icon = timer_icon;
 		this.text_whatwill = text_whatwill;
 		this.request_container = request_container;
@@ -121,6 +136,7 @@ class Level extends Phaser.Scene {
 	}
 	
 	public customer_container: Phaser.GameObjects.Container|undefined;
+	public bottle_red: Phaser.GameObjects.Image|undefined;
 	private timer_icon: Phaser.GameObjects.Image|undefined;
 	private text_whatwill: Phaser.GameObjects.Text|undefined;
 	public request_container: Phaser.GameObjects.Container|undefined;
@@ -130,9 +146,11 @@ class Level extends Phaser.Scene {
 	
 	/* START-USER-CODE */
 
-	private activeCustomerPrefab;
+	private activeCustomerPrefab : CustomerDisplayerPrefab;
   private customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
   private customer_index = -1;
+
+	private active_paint;
 
 	private starting_score = 0;
 
@@ -149,10 +167,19 @@ class Level extends Phaser.Scene {
     this.events.on(GameEvent.NEW_CUSTOMER, this.loopGame, this);
     this.events.on(GameEvent.GAME_END, this.onGameComplete, this);
 
-		this.createNewCustomer();
+		this.events.on(GameEvent.MAKEUP_SELECTED, this.onPaintSelected, this);
+		this.bottle_red.emit('pointerdown');
 
+		this.createNewCustomer();
     this.events.emit(GameEvent.GAME_INTRO);
   }
+
+	onPaintSelected(data) {
+		this.active_paint = data;
+		if (this.activeCustomerPrefab) {
+			this.activeCustomerPrefab.setBrush(this.active_paint);
+		}
+	}
 
   introCustomer() {
     this.customer_container.x = 700;
@@ -250,6 +277,7 @@ class Level extends Phaser.Scene {
 
 		let index = 1;
 		customer.setMakeupRequest(customer_id + '_makeup_' + index);
+		customer.setBrush(this.active_paint);
 
 		this.starting_score = customer.getMakeupScore();
 
@@ -258,7 +286,7 @@ class Level extends Phaser.Scene {
 		this.request_container.visible = true;
 		this.request_head.setTexture('customer_' + customer_id + '_head');
 		this.request_makeup.setTexture(customer_id + '_makeup_' + index);
-		
+
 
 		this.activeCustomerPrefab = customer;
 		this.customer_container.add(customer);

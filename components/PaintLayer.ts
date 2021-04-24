@@ -40,6 +40,8 @@ class PaintLayer extends UserComponent {
 	private is_drawing : boolean = false;
 	private last_pos = { x : 0, y : 0 }
 
+	private brush_data;
+
 	private brush_sprite : Phaser.GameObjects.Image;
 
 	private pixel_match_function;
@@ -176,6 +178,12 @@ class PaintLayer extends UserComponent {
 		this.mask_object.setRotation(matrix.rotation);
 	}
 
+	setBrush(data) {
+		this.brush_data = data;
+
+		this.brush_sprite.tint = data.tint;
+	}
+
 	setMakeupRequest(template_id) {
 		this.makeup_request_template = template_id;
 	}
@@ -199,7 +207,6 @@ class PaintLayer extends UserComponent {
 			key : this.brush,
 			add : false,
 		});
-		this.brush_sprite.tint = 0xff0000;
 		
 		this.render_texture.setInteractive();
 		this.render_texture.input.hitArea.setTo(0,0, 400, 400);

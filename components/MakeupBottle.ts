@@ -25,6 +25,19 @@ class MakeupBottle extends UserComponent {
 	/* START-USER-CODE */
 
 	awake() {
+		this.tint = this.gameObject.tintTopLeft;
+		this.gameObject.setInteractive().on("pointerdown", this.setActive, this);
+	}
+
+	setActive() {
+		this.scene.events.emit(GameEvent.MAKEUP_SELECTED, { tint : this.tint });
+		this.scene.add.tween({
+			targets: this.gameObject,
+			scaleX: 0.8,
+			scaleY: 0.8,
+			duration: 80,
+			yoyo: true
+		});
 	}
 	// Write your code here.
 
