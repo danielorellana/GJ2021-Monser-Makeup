@@ -121,7 +121,7 @@ class PaintLayer extends UserComponent {
 			let canvas_ctx = this.render_texture.context;
 			drawing_image_data = canvas_ctx.getImageData(0, 0, width, height).data;
 		}
-		var compare_template = this.scene.textures.get('makup_test').getSourceImage(0) as HTMLImageElement;
+		var compare_template = this.scene.textures.get('makeup_compare').getSourceImage(0) as HTMLImageElement;
 		
 		let compare_canvas = document.createElement('canvas');
 		let compare_ctx = compare_canvas.getContext('2d');
@@ -191,7 +191,6 @@ class PaintLayer extends UserComponent {
 		this.gameObject.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.mask_object);
 	}
 	awake() {
-		console.log();
 		this.brush_sprite = this.scene.make.image({
 			x : 0,
 			y : 0,
@@ -229,7 +228,7 @@ class PaintLayer extends UserComponent {
 		this.render_texture.on("pointerdown", handlePointer);
 		this.render_texture.on("pointermove", handlePointer);
 
-		this.gameObject.scene.events.on(Level.EVENT_TIMER_DONE, this.onTimesUp, this);
+		this.gameObject.scene.events.on(GameEvent.TIMER_COMPLETE, this.onTimesUp, this);
 	}
 	/* END-USER-CODE */
 }

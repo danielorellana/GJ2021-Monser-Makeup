@@ -60,14 +60,15 @@ class Timer extends UserComponent {
   private initial_bar_width: number = 650;
 
   awake() {
-    this.scene.events.on(Level.PHASE_GAMESTART, this.startTimer, this);
+    this.scene.events.on(GameEvent.GAME_START, this.startTimer, this);
     this.gameObject.bringToTop(this.icon);
   }
   startTimer() {
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
-    this.scene.events.on(Level.EVENT_TIMER_DONE, this.reset, this);
+    this.scene.events.on(GameEvent.TIMER_COMPLETE, this.reset, this);
   }
   reset() {
+	  
    this.elapsed = 0;
    this.progress_bar.width = this.initial_bar_width
   }
@@ -76,7 +77,8 @@ class Timer extends UserComponent {
 
     if (this.elapsed > this.timer_length) {
       this.progress_bar.width = 0;
-      this.scene.events.emit(Level.EVENT_TIMER_DONE);
+	  this.scene.events.off(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
+      this.scene.events.emit(GameEvent.TIMER_COMPLETE);
     } else {
       let perc = 1 - this.elapsed / this.timer_length;
       this.progress_bar.width = this.initial_bar_width * perc;

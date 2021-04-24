@@ -18,6 +18,7 @@
                     "type": "Image",
                     "id": "3727ba08-5d6d-4bcc-b61d-cd5b3aae8afd",
                     "label": "base_sprite",
+                    "scope": "PUBLIC",
                     "components": [],
                     "texture": {
                         "key": "customer_pig_head"

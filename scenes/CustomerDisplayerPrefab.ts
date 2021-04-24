@@ -28,24 +28,27 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		paintlayer_001PaintLayer.brush = "brush_default";
 		paintlayer_001PaintLayer.mask_id = "customer_pig_head";
 		
-		/* START-USER-CTR-CODE */
-		let customer = (this.scene as Level).getCurrentCustomerId();
-		base_sprite.setTexture('customer_' + customer + '_head');
+		this.base_sprite = base_sprite;
 		
-		paintlayer_001PaintLayer.mask_id = 'customer_' + customer + '_head';
-		paintlayer_001PaintLayer.awake();
-
+		/* START-USER-CTR-CODE */
+		this.paint_layer = paintlayer_001PaintLayer;
 		face_sprite.visible = false;
 
-		this.scene.events.on(Level.EVENT_NEW_CUSTOMER, (data) => {
-			console.log(data);
-		});
+		this.scene.events.on(GameEvent.NEW_CUSTOMER, this.onNewCustomer, this);
 		/* END-USER-CTR-CODE */
 	}
 	
+	public base_sprite: Phaser.GameObjects.Image|undefined;
+	
 	/* START-USER-CODE */
+	private paint_layer:PaintLayer; 
 
-	// Write your code here.
+	onNewCustomer(customer_id) {
+		this.base_sprite.setTexture('customer_' + customer_id + '_head');
+		this.paint_layer.mask_id = 'customer_' + customer_id + '_head';
+		this.paint_layer.setMask('customer_' + customer_id + '_head');
+		this.paint_layer.awake();
+	}
 
 	/* END-USER-CODE */
 }
