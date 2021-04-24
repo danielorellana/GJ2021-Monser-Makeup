@@ -9,26 +9,6 @@
     },
     "displayList": [
         {
-            "type": "Container",
-            "id": "c29efc74-3d84-435f-ac01-8f29bfe84770",
-            "label": "customer_container",
-            "scope": "CLASS",
-            "components": [
-                "CustomerManager"
-            ],
-            "CustomerManager.id": "customer_manager",
-            "x": 68,
-            "y": 33,
-            "list": [
-                {
-                    "prefabId": "21d66c14-5e62-4666-9aed-94b1c40c4bcc",
-                    "id": "15acc7a4-9714-44a4-9825-441baca7924d",
-                    "label": "customer",
-                    "components": []
-                }
-            ]
-        },
-        {
             "type": "Image",
             "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
             "label": "mirror_scene_frame",
@@ -86,6 +66,51 @@
             ]
         },
         {
+            "type": "Rectangle",
+            "id": "6f4faf9c-c2ca-4db7-b3b7-5277b52c26ea",
+            "label": "rectangle",
+            "components": [],
+            "x": 273,
+            "y": 251,
+            "scaleX": 3.4764732519125743,
+            "scaleY": 3.2089789491501506,
+            "isFilled": true,
+            "fillColor": "#74635a",
+            "width": 128,
+            "height": 128
+        },
+        {
+            "type": "Container",
+            "id": "c29efc74-3d84-435f-ac01-8f29bfe84770",
+            "label": "customer_container",
+            "scope": "PUBLIC",
+            "components": [
+                "CustomerManager"
+            ],
+            "CustomerManager.id": "customer_manager",
+            "x": 68,
+            "y": 33,
+            "list": [
+                {
+                    "prefabId": "21d66c14-5e62-4666-9aed-94b1c40c4bcc",
+                    "id": "15acc7a4-9714-44a4-9825-441baca7924d",
+                    "label": "customer",
+                    "components": []
+                }
+            ]
+        },
+        {
+            "type": "Image",
+            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
+            "label": "mirror_scene_frame",
+            "components": [],
+            "texture": {
+                "key": "mirror_scene_frame"
+            },
+            "x": 400,
+            "y": 300
+        },
+        {
             "type": "Container",
             "id": "9146768e-b1d1-4517-b35d-d60448a52dea",
             "label": "timerContainer",
@@ -108,6 +133,69 @@
                     }
                 }
             ]
+        },
+        {
+            "type": "Text",
+            "id": "e697a319-9d61-4b69-98e6-5dee289189ff",
+            "label": "text_whatwill",
+            "scope": "CLASS",
+            "components": [],
+            "x": 639,
+            "y": 132,
+            "text": "What will it be?",
+            "fontSize": "24px",
+            "strokeThickness": 1,
+            "backgroundColor": "",
+            "shadow.offsetX": 3,
+            "shadow.offsetY": 3,
+            "shadow.stroke": true
+        },
+        {
+            "type": "Container",
+            "id": "37ead6da-6078-4b4f-a130-5bbbe9b585ca",
+            "label": "request_container",
+            "scope": "PUBLIC",
+            "components": [],
+            "x": 633,
+            "y": 218,
+            "scaleX": 0.5,
+            "scaleY": 0.5,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "5c22c9de-d838-41d5-a5d5-ba24dfa5c918",
+                    "label": "request_head",
+                    "scope": "PUBLIC",
+                    "components": [],
+                    "texture": {
+                        "key": "customer_frank_head"
+                    }
+                },
+                {
+                    "type": "Image",
+                    "id": "4444687f-031c-4f81-8122-abed356eb2fe",
+                    "label": "request_makeup",
+                    "scope": "PUBLIC",
+                    "components": [],
+                    "texture": {
+                        "key": "frank_makeup_1"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Image",
+            "id": "0a5f18af-97a5-447d-8196-2113a12ef717",
+            "label": "customer_foreground",
+            "scope": "PUBLIC",
+            "components": [],
+            "texture": {
+                "key": "customer_steve_head_back"
+            },
+            "x": 280,
+            "y": 261,
+            "originX": 0,
+            "originY": 0
         }
     ],
     "plainObjects": [],

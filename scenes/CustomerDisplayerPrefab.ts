@@ -20,7 +20,6 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		// face_sprite
 		const face_sprite = scene.add.image(0, 0, "customerFrank_head");
 		face_sprite.setOrigin(0, 0);
-		face_sprite.visible = false;
 		this.add(face_sprite);
 		
 		// paintlayer (components)
@@ -44,6 +43,7 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 	private base_sprite: Phaser.GameObjects.Image|undefined;
 	
 	/* START-USER-CODE */
+	private paint_layer:PaintLayer; 
 
 	setCustomer(customer_id) {
 
@@ -52,18 +52,15 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		let mask_texture_id = customer_id + '_mask';
 		this.paint_layer.setMakeupMask(mask_texture_id);
 		this.paint_layer.init();
+	}
 
-		this.base_score = this.paint_layer.getMakeupScore();
-
+	setMakeupRequest(template_id) {
+		this.paint_layer.setMakeupRequest(template_id);
 	}
 
 	getMakeupScore(showcanvas = false) {
 		return this.paint_layer.getMakeupScore(showcanvas);
 	}
-
-	private paint_layer : PaintLayer;
-
-	public base_score : number = 0;
 
 	// Write your code here.
 

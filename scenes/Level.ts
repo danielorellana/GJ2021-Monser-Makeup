@@ -1,5 +1,12 @@
 // You can write more code here
-
+enum GameEvent {
+  GAME_INTRO = "GAME_INTRO",
+  GAME_START = "GAME_START",
+  TIMER_COMPLETE = "TIMER_DONE",
+  GAME_RESULT = "RESULT",
+  NEW_CUSTOMER = "NEW_CUSTOMER",
+  GAME_END = "GAME_END",
+}
 /* START OF COMPILED CODE */
 
 class Level extends Phaser.Scene {
@@ -13,13 +20,6 @@ class Level extends Phaser.Scene {
 	}
 	
 	editorCreate() {
-		
-		// customer_container
-		const customer_container = this.add.container(68, 33);
-		
-		// customer
-		const customer = new CustomerDisplayerPrefab(this, 0, 0);
-		customer_container.add(customer);
 		
 		// mirror_scene_frame
 		this.add.image(400, 300, "mirror_scene_frame");
@@ -43,6 +43,23 @@ class Level extends Phaser.Scene {
 		bottle_blue.tintBottomRight = 255;
 		makeup.add(bottle_blue);
 		
+		// rectangle
+		const rectangle = this.add.rectangle(273, 251, 128, 128);
+		rectangle.scaleX = 3.4764732519125743;
+		rectangle.scaleY = 3.2089789491501506;
+		rectangle.isFilled = true;
+		rectangle.fillColor = 7627610;
+		
+		// customer_container
+		const customer_container = this.add.container(68, 33);
+		
+		// customer
+		const customer = new CustomerDisplayerPrefab(this, 0, 0);
+		customer_container.add(customer);
+		
+		// mirror_scene_frame
+		this.add.image(400, 300, "mirror_scene_frame");
+		
 		// timerContainer
 		const timerContainer = this.add.container(48, 45);
 		
@@ -50,10 +67,28 @@ class Level extends Phaser.Scene {
 		const timer_icon = this.add.image(0, 0, "timer_icon");
 		timerContainer.add(timer_icon);
 		
-		// customer_container (components)
-		const customer_containerCustomerManager = new CustomerManager(customer_container);
-		customer_containerCustomerManager.id = "customer_manager";
-		customer_container.emit("components-awake");
+		// text_whatwill
+		const text_whatwill = this.add.text(639, 132, "", {});
+		text_whatwill.setOrigin(0.5, 0.5);
+		text_whatwill.text = "What will it be?";
+		text_whatwill.setStyle({"backgroundColor":"","fontSize":"24px","strokeThickness":1,"shadow.offsetX":3,"shadow.offsetY":3,"shadow.stroke":true});
+		
+		// request_container
+		const request_container = this.add.container(633, 218);
+		request_container.scaleX = 0.5;
+		request_container.scaleY = 0.5;
+		
+		// request_head
+		const request_head = this.add.image(0, 0, "customer_frank_head");
+		request_container.add(request_head);
+		
+		// request_makeup
+		const request_makeup = this.add.image(0, 0, "frank_makeup_1");
+		request_container.add(request_makeup);
+		
+		// customer_foreground
+		const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
+		customer_foreground.setOrigin(0, 0);
 		
 		// bottle_red (components)
 		const bottle_redMakeupBottle = new MakeupBottle(bottle_red);
@@ -65,6 +100,11 @@ class Level extends Phaser.Scene {
 		bottle_blueMakeupBottle.tint = bottle_blue.tintTopLeft;
 		bottle_blue.emit("components-awake");
 		
+		// customer_container (components)
+		const customer_containerCustomerManager = new CustomerManager(customer_container);
+		customer_containerCustomerManager.id = "customer_manager";
+		customer_container.emit("components-awake");
+		
 		// timerContainer (components)
 		const timerContainerTimer = new Timer(timerContainer);
 		timerContainerTimer.timer_length = 13;
@@ -73,45 +113,102 @@ class Level extends Phaser.Scene {
 		
 		this.customer_container = customer_container;
 		this.timer_icon = timer_icon;
+		this.text_whatwill = text_whatwill;
+		this.request_container = request_container;
+		this.request_head = request_head;
+		this.request_makeup = request_makeup;
+		this.customer_foreground = customer_foreground;
 	}
 	
-	private customer_container: Phaser.GameObjects.Container|undefined;
+	public customer_container: Phaser.GameObjects.Container|undefined;
 	private timer_icon: Phaser.GameObjects.Image|undefined;
+	private text_whatwill: Phaser.GameObjects.Text|undefined;
+	public request_container: Phaser.GameObjects.Container|undefined;
+	public request_head: Phaser.GameObjects.Image|undefined;
+	public request_makeup: Phaser.GameObjects.Image|undefined;
+	public customer_foreground: Phaser.GameObjects.Image|undefined;
 	
 	/* START-USER-CODE */
-  public static readonly PHASE_GAMESTART = "PHASE_GAMESTART";
-  public static readonly EVENT_TIMER_DONE = "EVENT_TIMER_DONE";
-  public static readonly EVENT_NEW_CUSTOMER = "EVENT_NEW_CUSTOMER";
 
-  private customers = ['pig', 'frank', 'steve', 'goblin','elf'];
-	private activeCustomerPrefab : CustomerDisplayerPrefab;
-  private customerIndex = -1;
+	private activeCustomerPrefab;
+  private customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
+  private customer_index = -1;
 
 	private starting_score = 0;
 
   // Write your code here.
 
   create() {
-    this.shuffle(this.customers);
+    this.shuffle(this.customers_ids);
+
     this.editorCreate();
+    this.text_whatwill.visible = false;
 
-		this.events.on(Level.EVENT_TIMER_DONE, this.onTimerDone, this);
+    this.events.on(GameEvent.GAME_INTRO, this.introCustomer, this);
+    this.events.on(GameEvent.TIMER_COMPLETE, this.onGameTimerComplete, this);
+    this.events.on(GameEvent.NEW_CUSTOMER, this.loopGame, this);
+    this.events.on(GameEvent.GAME_END, this.onGameComplete, this);
 
-    this.createNewCustomer();
-    this.events.emit(Level.PHASE_GAMESTART);
+		this.createNewCustomer();
+
+    this.events.emit(GameEvent.GAME_INTRO);
   }
 
-	onTimerDone() {
+  introCustomer() {
+    this.customer_container.x = 700;
+    this.tweens.add({
+      duration: 1000,
+      targets: this.customer_container,
+      ease: Phaser.Math.Easing.Quintic.Out,
+      x: 68,
+      onUpdate: (tween, target) => {
+        this.customer_foreground.x = target.x + 250;
+      },
+      completeDelay: 1000,
+      onComplete: () => {
+        this.text_whatwill.visible = false;
+        this.startDrawingGame();
+      },
+    });
+
+    this.text_whatwill.visible = true;
+    // this.text_whatwill.rotation = -Math.PI / 16;
+    // this.tweens.add({
+    //   duration: 300,
+    //   targets: this.text_whatwill,
+    //   ease: Phaser.Math.Easing.Quintic.InOut,
+    //   rotation: Math.PI / 16,
+    //   yoyo: true,
+    //   repeat: 10,
+    // });
+  }
+
+  startDrawingGame() {
+    this.events.emit(GameEvent.GAME_START);
+  }
+	
+
+  onGameTimerComplete() {
+
+		
 		let score = this.activeCustomerPrefab.getMakeupScore(true);
 
 		console.log('starting difference percent : ' + this.starting_score);
 		console.log('ending difference percent : ' + score);
 
-		this.removeOldCustomer();
-
 		this.createNewCustomer();
+
+    if (this.customer_index <= this.customers_ids.length-1) {
+	  	this.events.emit(GameEvent.GAME_INTRO);
+    }
+  }
+
+  loopGame() {
 	}
 
+  onGameComplete() {}
+
+  // Util
   shuffle(array: string[]) {
     let currentIndex = array.length;
     let temporaryValue: string;
@@ -134,34 +231,45 @@ class Level extends Phaser.Scene {
 
 	removeOldCustomer() {
 		this.customer_container.removeAll(true);
-
 	}
 
 	createNewCustomer() {
 		this.removeOldCustomer();
 
+		this.selectNewCustomer();
 
 		let customer = new CustomerDisplayerPrefab(this, 0, 0);
 		this.add.existing(customer);
 
-		this.selectNewCustomer();
-		customer.setCustomer(this.getCurrentCustomerId());
+		let customer_id = this.getCurrentCustomerId();
+
+		customer.setCustomer(customer_id);
+		this.customer_foreground.setTexture(
+      "customer_" + customer_id + "_head_back"
+    );
+
+		let index = 1;
+		customer.setMakeupRequest(customer_id + '_makeup_' + index);
 
 		this.starting_score = customer.getMakeupScore();
+
+
+		//show preview head
+		this.request_container.visible = true;
+		this.request_head.setTexture('customer_' + customer_id + '_head');
+		this.request_makeup.setTexture(customer_id + '_makeup_' + index);
+		
 
 		this.activeCustomerPrefab = customer;
 		this.customer_container.add(customer);
 	}
 
   selectNewCustomer() {
-    this.customerIndex++;
-		this.events.emit(Level.EVENT_NEW_CUSTOMER, {
-			customer_id: this.getCurrentCustomerId()
-		});
+    this.customer_index++;
   }
 
   getCurrentCustomerId() {
-    return this.customers[this.customerIndex];
+    return this.customers_ids[this.customer_index];
   }
   /* END-USER-CODE */
 }

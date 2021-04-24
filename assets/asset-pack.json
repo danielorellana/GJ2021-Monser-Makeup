@@ -17,9 +17,19 @@
                 "key": "customer_elf_head"
             },
             {
+                "url": "assets/customers/customer_elf_head_back.png",
+                "type": "image",
+                "key": "customer_elf_head_back"
+            },
+            {
                 "url": "assets/customers/customer_frank_head.png",
                 "type": "image",
                 "key": "customer_frank_head"
+            },
+            {
+                "url": "assets/customers/customer_frank_head_back.png",
+                "type": "image",
+                "key": "customer_frank_head_back"
             },
             {
                 "url": "assets/customers/customer_goblin_head.png",
@@ -27,9 +37,19 @@
                 "key": "customer_goblin_head"
             },
             {
+                "url": "assets/customers/customer_goblin_head_back.png",
+                "type": "image",
+                "key": "customer_goblin_head_back"
+            },
+            {
                 "url": "assets/customers/customer_pig_head.png",
                 "type": "image",
                 "key": "customer_pig_head"
+            },
+            {
+                "url": "assets/customers/customer_pig_head_back.png",
+                "type": "image",
+                "key": "customer_pig_head_back"
             },
             {
                 "url": "assets/customers/customer_steve_head.png",
@@ -37,9 +57,19 @@
                 "key": "customer_steve_head"
             },
             {
+                "url": "assets/customers/customer_steve_head_back.png",
+                "type": "image",
+                "key": "customer_steve_head_back"
+            },
+            {
                 "url": "assets/dino.png",
                 "type": "image",
                 "key": "dino"
+            },
+            {
+                "url": "assets/customers/elf_makeup_1.png",
+                "type": "image",
+                "key": "elf_makeup_1"
             },
             {
                 "url": "assets/customers/elf_mask.png",
@@ -47,9 +77,19 @@
                 "key": "elf_mask"
             },
             {
+                "url": "assets/customers/frank_makeup_1.png",
+                "type": "image",
+                "key": "frank_makeup_1"
+            },
+            {
                 "url": "assets/customers/frank_mask.png",
                 "type": "image",
                 "key": "frank_mask"
+            },
+            {
+                "url": "assets/customers/goblin_makeup_1.png",
+                "type": "image",
+                "key": "goblin_makeup_1"
             },
             {
                 "url": "assets/customers/goblin_mask.png",
@@ -77,9 +117,19 @@
                 "key": "mirror_scene_frame"
             },
             {
+                "url": "assets/customers/pig_makeup_1.png",
+                "type": "image",
+                "key": "pig_makeup_1"
+            },
+            {
                 "url": "assets/customers/pig_mask.png",
                 "type": "image",
                 "key": "pig_mask"
+            },
+            {
+                "url": "assets/customers/steve_makeup_1.png",
+                "type": "image",
+                "key": "steve_makeup_1"
             },
             {
                 "url": "assets/customers/steve_mask.png",
