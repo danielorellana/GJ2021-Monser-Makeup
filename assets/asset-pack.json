@@ -67,6 +67,36 @@
                 "key": "dino"
             },
             {
+                "url": "assets/customers/elf_makeup_1.png",
+                "type": "image",
+                "key": "elf_makeup_1"
+            },
+            {
+                "url": "assets/customers/elf_mask.png",
+                "type": "image",
+                "key": "elf_mask"
+            },
+            {
+                "url": "assets/customers/frank_makeup_1.png",
+                "type": "image",
+                "key": "frank_makeup_1"
+            },
+            {
+                "url": "assets/customers/frank_mask.png",
+                "type": "image",
+                "key": "frank_mask"
+            },
+            {
+                "url": "assets/customers/goblin_makeup_1.png",
+                "type": "image",
+                "key": "goblin_makeup_1"
+            },
+            {
+                "url": "assets/customers/goblin_mask.png",
+                "type": "image",
+                "key": "goblin_mask"
+            },
+            {
                 "url": "assets/makeup_bottle.png",
                 "type": "image",
                 "key": "makeup_bottle"
@@ -87,24 +117,24 @@
                 "key": "mirror_scene_frame"
             },
             {
-                "url": "assets/pig_bg.png",
+                "url": "assets/customers/pig_makeup_1.png",
                 "type": "image",
-                "key": "pig_bg"
+                "key": "pig_makeup_1"
             },
             {
-                "url": "assets/pig_image.png",
-                "type": "image",
-                "key": "pig_image"
-            },
-            {
-                "url": "assets/pig_lines.png",
-                "type": "image",
-                "key": "pig_lines"
-            },
-            {
-                "url": "assets/pig_mask.png",
+                "url": "assets/customers/pig_mask.png",
                 "type": "image",
                 "key": "pig_mask"
+            },
+            {
+                "url": "assets/customers/steve_makeup_1.png",
+                "type": "image",
+                "key": "steve_makeup_1"
+            },
+            {
+                "url": "assets/customers/steve_mask.png",
+                "type": "image",
+                "key": "steve_mask"
             },
             {
                 "url": "assets/timer_icon.png",
