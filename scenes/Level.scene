@@ -54,6 +54,15 @@
             ]
         },
         {
+            "prefabId": "91d1d797-eb86-41b9-a8ea-a85cfb17ad8b",
+            "id": "38d9e921-dea0-41ca-a373-bd7c1886e87b",
+            "label": "mirror_container",
+            "scope": "CLASS",
+            "components": [],
+            "x": 55,
+            "y": 55
+        },
+        {
             "type": "Image",
             "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
             "label": "mirror_scene_frame",
@@ -136,7 +145,7 @@
             "components": [
                 "Timer"
             ],
-            "Timer.timer_length": 13,
+            "Timer.timer_length": 1,
             "Timer.icon": "timer_icon",
             "x": 48,
             "y": 45,
@@ -175,11 +184,25 @@
             "label": "request_container",
             "scope": "PUBLIC",
             "components": [],
-            "x": 633,
-            "y": 218,
+            "x": 606,
+            "y": 204,
             "scaleX": 0.5,
             "scaleY": 0.5,
             "list": [
+                {
+                    "type": "Sprite",
+                    "id": "e8bb229d-c50f-47fa-8c02-a0f491a0e8cd",
+                    "label": "sprite",
+                    "components": [
+                        "StartAnimation"
+                    ],
+                    "StartAnimation.animation_key": "animate",
+                    "texture": {
+                        "key": "thought_bubble_3"
+                    },
+                    "scaleX": 1.8,
+                    "scaleY": 1.8
+                },
                 {
                     "type": "Image",
                     "id": "5c22c9de-d838-41d5-a5d5-ba24dfa5c918",

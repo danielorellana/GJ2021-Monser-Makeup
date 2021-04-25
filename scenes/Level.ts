@@ -1,12 +1,12 @@
 // You can write more code here
 enum GameEvent {
-  GAME_INTRO = "GAME_INTRO",
-  GAME_START = "GAME_START",
-  TIMER_COMPLETE = "TIMER_DONE",
-  GAME_RESULT = "RESULT",
-  NEW_CUSTOMER = "NEW_CUSTOMER",
+	GAME_INTRO = "GAME_INTRO",
+	GAME_START = "GAME_START",
+	TIMER_COMPLETE = "TIMER_DONE",
+	GAME_RESULT = "RESULT",
+	NEW_CUSTOMER = "NEW_CUSTOMER",
 	MAKEUP_SELECTED = "MAKEUP_SELECTED",
-  GAME_END = "GAME_END",
+	GAME_END = "GAME_END",
 }
 /* START OF COMPILED CODE */
 
@@ -16,8 +16,8 @@ class Level extends Phaser.Scene {
 		super("Level");
 		
 		/* START-USER-CTR-CODE */
-    // Write your code here.
-    /* END-USER-CTR-CODE */
+		// Write your code here.
+		/* END-USER-CTR-CODE */
 	}
 	
 	editorCreate() {
@@ -38,6 +38,10 @@ class Level extends Phaser.Scene {
 		// customer
 		const customer = new CustomerDisplayerPrefab(this, 0, 0);
 		customer_container.add(customer);
+		
+		// mirror_container
+		const mirror_container = new Mirror(this, 55, 55);
+		this.add.existing(mirror_container);
 		
 		// mirror_scene_frame
 		this.add.image(400, 300, "mirror_scene_frame");
@@ -83,9 +87,15 @@ class Level extends Phaser.Scene {
 		text_whatwill.setStyle({"backgroundColor":"","fontSize":"24px","strokeThickness":1,"shadow.offsetX":3,"shadow.offsetY":3,"shadow.stroke":true});
 		
 		// request_container
-		const request_container = this.add.container(633, 218);
+		const request_container = this.add.container(606, 204);
 		request_container.scaleX = 0.5;
 		request_container.scaleY = 0.5;
+		
+		// sprite
+		const sprite = this.add.sprite(0, 0, "thought_bubble_3");
+		sprite.scaleX = 1.8;
+		sprite.scaleY = 1.8;
+		request_container.add(sprite);
 		
 		// request_head
 		const request_head = this.add.image(0, 0, "customer_frank_head");
@@ -121,11 +131,17 @@ class Level extends Phaser.Scene {
 		
 		// timerContainer (components)
 		const timerContainerTimer = new Timer(timerContainer);
-		timerContainerTimer.timer_length = 13;
+		timerContainerTimer.timer_length = 1;
 		timerContainerTimer.icon = timer_icon;
 		timerContainer.emit("components-awake");
 		
+		// sprite (components)
+		const spriteStartAnimation = new StartAnimation(sprite);
+		spriteStartAnimation.animation_key = "animate";
+		sprite.emit("components-awake");
+		
 		this.customer_container = customer_container;
+		this.mirror_container = mirror_container;
 		this.bottle_red = bottle_red;
 		this.timer_icon = timer_icon;
 		this.text_whatwill = text_whatwill;
@@ -136,6 +152,7 @@ class Level extends Phaser.Scene {
 	}
 	
 	public customer_container: Phaser.GameObjects.Container|undefined;
+	private mirror_container: Mirror|undefined;
 	public bottle_red: Phaser.GameObjects.Image|undefined;
 	private timer_icon: Phaser.GameObjects.Image|undefined;
 	private text_whatwill: Phaser.GameObjects.Text|undefined;
@@ -146,33 +163,33 @@ class Level extends Phaser.Scene {
 	
 	/* START-USER-CODE */
 
-	private activeCustomerPrefab : CustomerDisplayerPrefab;
-  private customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
-  private customer_index = -1;
+	private activeCustomerPrefab: CustomerDisplayerPrefab;
+	private customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
+	private customer_index = -1;
 
 	private active_paint;
 
 	private starting_score = 0;
 
-  // Write your code here.
+	// Write your code here.
 
-  create() {
-    this.shuffle(this.customers_ids);
+	create() {
+		this.shuffle(this.customers_ids);
 
-    this.editorCreate();
-    this.text_whatwill.visible = false;
+		this.editorCreate();
+		this.text_whatwill.visible = false;
 
-    this.events.on(GameEvent.GAME_INTRO, this.introCustomer, this);
-    this.events.on(GameEvent.TIMER_COMPLETE, this.onGameTimerComplete, this);
-    this.events.on(GameEvent.NEW_CUSTOMER, this.loopGame, this);
-    this.events.on(GameEvent.GAME_END, this.onGameComplete, this);
+		this.events.on(GameEvent.GAME_INTRO, this.introCustomer, this);
+		this.events.on(GameEvent.TIMER_COMPLETE, this.onGameTimerComplete, this);
+		this.events.on(GameEvent.NEW_CUSTOMER, this.loopGame, this);
+		this.events.on(GameEvent.GAME_END, this.onGameComplete, this);
 
 		this.events.on(GameEvent.MAKEUP_SELECTED, this.onPaintSelected, this);
-		this.bottle_red.emit('pointerdown');
+		this.bottle_red.emit("pointerdown");
 
 		this.createNewCustomer();
-    this.events.emit(GameEvent.GAME_INTRO);
-  }
+		this.events.emit(GameEvent.GAME_INTRO);
+	}
 
 	onPaintSelected(data) {
 		this.active_paint = data;
@@ -181,80 +198,110 @@ class Level extends Phaser.Scene {
 		}
 	}
 
-  introCustomer() {
-    this.customer_container.x = 700;
-    this.tweens.add({
-      duration: 1000,
-      targets: this.customer_container,
-      ease: Phaser.Math.Easing.Quintic.Out,
-      x: 68,
-      onUpdate: (tween, target) => {
-        this.customer_foreground.x = target.x + 250;
-      },
-      completeDelay: 1000,
-      onComplete: () => {
-        this.text_whatwill.visible = false;
-        this.startDrawingGame();
-      },
-    });
+	introCustomer() {
+		this.customer_container.x = 700;
+		let timeline = this.tweens.createTimeline();
+		timeline.add({
+			duration: 1000,
+			targets: this.customer_container,
+			ease: Phaser.Math.Easing.Quintic.Out,
+			x: 68,
+			onUpdate: (tween, target) => {
+				this.customer_foreground.x = target.x + 250;
+			},
+			completeDelay: 1500,
+			onComplete: () => {
+				this.text_whatwill.visible = false;
+				this.startDrawingGame();
+			},
+		});
 
-    this.text_whatwill.visible = true;
-    // this.text_whatwill.rotation = -Math.PI / 16;
-    // this.tweens.add({
-    //   duration: 300,
-    //   targets: this.text_whatwill,
-    //   ease: Phaser.Math.Easing.Quintic.InOut,
-    //   rotation: Math.PI / 16,
-    //   yoyo: true,
-    //   repeat: 10,
-    // });
-  }
+		timeline.add({
+			duration: 500,
+			targets: this.request_container,
+			ease: Phaser.Math.Easing.Quintic.Out,
+			scale: 0.5,
+			onStart: (tween, target) => {
+				this.request_container.visible = true;
+				this.request_container.scale = 0;
+			},
+			completeDelay: 4000,
+		});
 
-  startDrawingGame() {
-    this.events.emit(GameEvent.GAME_START);
-  }
-	
+		timeline.add({
+			duration: 3000,
+			targets: this.request_container,
+			ease: Phaser.Math.Easing.Linear,
+			scale: 0,
+			onComplete: (tween, target) => {
+				this.request_container.visible = false;
+			},
+		});
 
-  onGameTimerComplete() {
+		this.text_whatwill.visible = true;
 
-		
-		let score = this.activeCustomerPrefab.getMakeupScore(true);
-
-		console.log('starting difference percent : ' + this.starting_score);
-		console.log('ending difference percent : ' + score);
-
-		this.createNewCustomer();
-
-    if (this.customer_index <= this.customers_ids.length-1) {
-	  	this.events.emit(GameEvent.GAME_INTRO);
-    }
-  }
-
-  loopGame() {
+		timeline.play();
 	}
 
-  onGameComplete() {}
+	startDrawingGame() {
+		this.events.emit(GameEvent.GAME_START);
+	}
 
-  // Util
-  shuffle(array: string[]) {
-    let currentIndex = array.length;
-    let temporaryValue: string;
-    let randomIndex: number;
+	onGameTimerComplete() {
 
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
+		let timeline = this.tweens.createTimeline();
+		timeline.add({
+			delay: 1000,
+			completeDelay: 1000,
+			duration: 1000,
+			targets: this.cameras.main,
+			ease: Phaser.Math.Easing.Expo.Out,
+			x: 150,
+			y: 150,
+			onComplete: () => {
+				this.customer_foreground.visible = false;
+			},
+		});
 
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
 
-    return array;
-  }
+
+		let score = this.activeCustomerPrefab.getMakeupScore(true);
+
+		console.log("starting difference percent : " + this.starting_score);
+		console.log("ending difference percent : " + score);
+
+	}
+
+	loopGame() {
+		this.createNewCustomer();
+
+		if (this.customer_index <= this.customers_ids.length - 1) {
+			this.events.emit(GameEvent.GAME_INTRO);
+		}
+	}
+
+	onGameComplete() {}
+
+	// Util
+	shuffle(array: string[]) {
+		let currentIndex = array.length;
+		let temporaryValue: string;
+		let randomIndex: number;
+
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+
+			// And swap it with the current element.
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+
+		return array;
+	}
 
 	removeOldCustomer() {
 		this.customer_container.removeAll(true);
@@ -262,7 +309,6 @@ class Level extends Phaser.Scene {
 
 	createNewCustomer() {
 		this.removeOldCustomer();
-
 		this.selectNewCustomer();
 
 		let customer = new CustomerDisplayerPrefab(this, 0, 0);
@@ -271,60 +317,52 @@ class Level extends Phaser.Scene {
 		let customer_id = this.getCurrentCustomerId();
 
 		customer.setCustomer(customer_id);
-		this.customer_foreground.setTexture(
-      "customer_" + customer_id + "_head_back"
-    );
-
+		this.customer_foreground.setTexture("customer_" + customer_id + "_head_back");
 
 		let templates = [];
-		for (let i = 1; i <= 10; i ++) {
-			console.log(customer_id + '_makeup_' + i)
-			templates.push(customer_id + '_makeup_' + i);
+		for (let i = 1; i <= 10; i++) {
+			console.log(customer_id + "_makeup_" + i);
+			templates.push(customer_id + "_makeup_" + i);
 		}
 		this.shuffle(templates);
 
 		let amount = 1 + Math.round(Math.random() * 2);
-
 		let requests = templates.slice(0, amount);
 
-		customer.setMakeupRequest(requests) ;//customer_id + '_makeup_' + index);
+		customer.setMakeupRequest(requests);
 		customer.setBrush(this.active_paint);
 
 		this.starting_score = customer.getMakeupScore();
 
-
 		//show preview head
-		this.request_container.visible = true;
-		this.request_head.setTexture('customer_' + customer_id + '_head');
+		this.request_head.setTexture("customer_" + customer_id + "_head");
+		this.request_container.visible = false;
 
 		this.makeup_list.removeAll(true);
 
-		requests.forEach(entry => {
+		requests.forEach((entry) => {
 			let img = this.make.image({
-				x : 0,
-				y : 0,
-				key : entry,
-				add : true,
+				x: 0,
+				y: 0,
+				key: entry,
+				add: true,
 			});
 			this.makeup_list.add(img);
-		})
-
-		// this.request_makeup.setTexture(customer_id + '_makeup_' + index);
-
+		});
 
 		this.activeCustomerPrefab = customer;
 		this.customer_container.add(customer);
 	}
 
-  selectNewCustomer() {
-    this.customer_index++;
-  }
+	selectNewCustomer() {
+		this.customer_index++;
+	}
 
-  getCurrentCustomerId() {
-		return 'frank';
-    // return this.customers_ids[this.customer_index];
-  }
-  /* END-USER-CODE */
+	getCurrentCustomerId() {
+		return "frank";
+		// return this.customers_ids[this.customer_index];
+	}
+	/* END-USER-CODE */
 }
 
 /* END OF COMPILED CODE */
