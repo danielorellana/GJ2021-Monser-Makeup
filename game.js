@@ -99,6 +99,19 @@ class MakeupBottle extends UserComponent {
     }
     /* START-USER-CODE */
     awake() {
+        this.tint = this.gameObject.tintTopLeft;
+        this.scene.makeup_colors.push(this.gameObject.tintTopLeft);
+        this.gameObject.setInteractive().on("pointerdown", this.setActive, this);
+    }
+    setActive() {
+        this.scene.events.emit(GameEvent.MAKEUP_SELECTED, { tint: this.tint });
+        this.scene.add.tween({
+            targets: this.gameObject,
+            scaleX: 0.8,
+            scaleY: 0.8,
+            duration: 80,
+            yoyo: true
+        });
     }
 }
 /* END OF COMPILED CODE */
@@ -135,13 +148,14 @@ class PaintLayer extends UserComponent {
         };
         x = Math.round(x);
         y = Math.round(y);
-        let density = 3;
+        let density = 1;
         let i = 0;
         this.render_texture.beginDraw();
         while (i <= dist) {
             let amount = i / (Math.max(1, dist));
             const draw_x = x + delta.x * amount + (Math.random() - 0.5) * 5;
             const draw_y = y + delta.y * amount + (Math.random() - 0.5) * 5;
+            this.brush_sprite.setScale((3 + Math.random()) / 3);
             this.render_texture.batchDraw(this.brush_sprite, draw_x, draw_y);
             i += density;
         }
@@ -150,7 +164,7 @@ class PaintLayer extends UserComponent {
     lock(locked) {
         this.locked = locked;
     }
-    getMakeupScore(showcanvas = false) {
+    getMakeupScore(compare_texture, showcanvas = false) {
         let width = 400;
         let height = 400;
         let webgl_target = this.render_texture.renderTarget;
@@ -176,23 +190,30 @@ class PaintLayer extends UserComponent {
             out_ctx.drawImage(mask_img, 0, -height);
             drawing_image_data = out_ctx.getImageData(0, 0, width, height).data;
         }
-        else {
-            var texture_canvas = this.render_texture.context.canvas;
-            let canvas_ctx = this.render_texture.context;
-            drawing_image_data = canvas_ctx.getImageData(0, 0, width, height).data;
+        let compare_data = null;
+        webgl_target = compare_texture.renderTarget;
+        {
+            let gl = this.scene.renderer.gl;
+            var framebuffer = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, webgl_target.texture, 0);
+            compare_data = new Uint8Array(width * height * 4);
+            gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, compare_data);
+            gl.deleteFramebuffer(framebuffer);
+            let out_canvas = document.createElement('canvas');
+            out_canvas.width = width;
+            out_canvas.height = height;
+            let out_ctx = out_canvas.getContext('2d');
+            let image_data = out_ctx.createImageData(width, height);
+            image_data.data.set(compare_data);
+            out_ctx.putImageData(image_data, 0, 0);
+            out_ctx.globalCompositeOperation = 'destination-in';
+            out_ctx.scale(1, -1);
+            out_ctx.drawImage(mask_img, 0, -height);
+            compare_data = out_ctx.getImageData(0, 0, width, height).data;
         }
-        var compare_template = this.scene.textures.get(this.makeup_request_template).getSourceImage(0);
-        let compare_canvas = document.createElement('canvas');
-        let compare_ctx = compare_canvas.getContext('2d');
-        compare_canvas.width = width;
-        compare_canvas.height = height;
-        compare_ctx.scale(1, -1);
-        compare_ctx.drawImage(compare_template, 0, -height);
-        compare_ctx.globalCompositeOperation = 'destination-in';
-        compare_ctx.drawImage(mask_img, 0, -height);
-        let compare_data = compare_ctx.getImageData(0, 0, width, height);
         var output_data = new ImageData(width, height);
-        let out = this.pixel_match_function(compare_data.data, drawing_image_data, output_data.data, width, height, { threshold: 0.15 });
+        let out = this.pixel_match_function(compare_data, drawing_image_data, output_data.data, width, height, { threshold: 0.15 });
         let pct = out / (width * height) * 100;
         if (showcanvas) {
             var canvas = document.createElement("canvas"); //  new HTMLCanvasElement();
@@ -224,8 +245,12 @@ class PaintLayer extends UserComponent {
         this.mask_object.setScale(matrix.scaleX, matrix.scaleY);
         this.mask_object.setRotation(matrix.rotation);
     }
+    setBrush(data) {
+        this.brush_data = data;
+        this.brush_sprite.setTint(data.tint);
+    }
     setMakeupRequest(template_id) {
-        this.makeup_request_template = template_id;
+        this.makeup_request_templates = template_id;
     }
     setMakeupMask(mask) {
         this.mask_id = mask;
@@ -246,7 +271,8 @@ class PaintLayer extends UserComponent {
             key: this.brush,
             add: false,
         });
-        this.brush_sprite.tint = 0xff0000;
+        // this.brush_sprite.alpha = 0.6;
+        this.render_texture.alpha = 0.925;
         this.render_texture.setInteractive();
         this.render_texture.input.hitArea.setTo(0, 0, 400, 400);
         const handlePointer = (pointer) => {
@@ -395,11 +421,14 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
         this.paint_layer.setMakeupMask(mask_texture_id);
         this.paint_layer.init();
     }
-    setMakeupRequest(template_id) {
-        this.paint_layer.setMakeupRequest(template_id);
+    setBrush(data) {
+        this.paint_layer.setBrush(data);
     }
-    getMakeupScore(showcanvas = false) {
-        return this.paint_layer.getMakeupScore(showcanvas);
+    setMakeupRequest(template_ids) {
+        this.paint_layer.setMakeupRequest(template_ids);
+    }
+    getMakeupScore(rendertexture, showcanvas = false) {
+        return this.paint_layer.getMakeupScore(rendertexture, showcanvas);
     }
 }
 /* END OF COMPILED CODE */
@@ -412,6 +441,7 @@ var GameEvent;
     GameEvent["TIMER_COMPLETE"] = "TIMER_DONE";
     GameEvent["GAME_RESULT"] = "RESULT";
     GameEvent["NEW_CUSTOMER"] = "NEW_CUSTOMER";
+    GameEvent["MAKEUP_SELECTED"] = "MAKEUP_SELECTED";
     GameEvent["GAME_END"] = "GAME_END";
 })(GameEvent || (GameEvent = {}));
 /* START OF COMPILED CODE */
@@ -419,6 +449,7 @@ class Level extends Phaser.Scene {
     constructor() {
         super("Level");
         this.customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
+        this.makeup_colors = [];
         this.customer_index = -1;
         this.starting_score = 0;
         /* START-USER-CTR-CODE */
@@ -428,22 +459,6 @@ class Level extends Phaser.Scene {
     editorCreate() {
         // mirror_scene_frame
         this.add.image(400, 300, "mirror_scene_frame");
-        // makeup
-        const makeup = this.add.container(303, 474);
-        // bottle_red
-        const bottle_red = this.add.image(50, -6, "makeup_bottle");
-        bottle_red.tintTopLeft = 16711680;
-        bottle_red.tintTopRight = 16711680;
-        bottle_red.tintBottomLeft = 16711680;
-        bottle_red.tintBottomRight = 16711680;
-        makeup.add(bottle_red);
-        // bottle_blue
-        const bottle_blue = this.add.image(-25, 2, "makeup_bottle");
-        bottle_blue.tintTopLeft = 255;
-        bottle_blue.tintTopRight = 255;
-        bottle_blue.tintBottomLeft = 255;
-        bottle_blue.tintBottomRight = 255;
-        makeup.add(bottle_blue);
         // rectangle
         const rectangle = this.add.rectangle(273, 251, 128, 128);
         rectangle.scaleX = 3.4764732519125743;
@@ -457,6 +472,29 @@ class Level extends Phaser.Scene {
         customer_container.add(customer);
         // mirror_scene_frame
         this.add.image(400, 300, "mirror_scene_frame");
+        // makeup
+        const makeup = this.add.container(160, 494);
+        // bottle_red
+        const bottle_red = this.add.image(91, -24, "makeup_bottle");
+        bottle_red.tintTopLeft = 14031386;
+        bottle_red.tintTopRight = 14031386;
+        bottle_red.tintBottomLeft = 14031386;
+        bottle_red.tintBottomRight = 14031386;
+        makeup.add(bottle_red);
+        // bottle_blue
+        const bottle_blue = this.add.image(7, 7, "makeup_bottle");
+        bottle_blue.tintTopLeft = 6491122;
+        bottle_blue.tintTopRight = 6491122;
+        bottle_blue.tintBottomLeft = 6491122;
+        bottle_blue.tintBottomRight = 6491122;
+        makeup.add(bottle_blue);
+        // bottle_blue_1
+        const bottle_blue_1 = this.add.image(-69, -16, "makeup_bottle");
+        bottle_blue_1.tintTopLeft = 16312155;
+        bottle_blue_1.tintTopRight = 16312155;
+        bottle_blue_1.tintBottomLeft = 16312155;
+        bottle_blue_1.tintBottomRight = 16312155;
+        makeup.add(bottle_blue_1);
         // timerContainer
         const timerContainer = this.add.container(48, 45);
         // timer_icon
@@ -474,12 +512,16 @@ class Level extends Phaser.Scene {
         // request_head
         const request_head = this.add.image(0, 0, "customer_frank_head");
         request_container.add(request_head);
-        // request_makeup
-        const request_makeup = this.add.image(0, 0, "frank_makeup_1");
-        request_container.add(request_makeup);
+        // makeup_list
+        const makeup_list = this.add.container(0, 0);
+        request_container.add(makeup_list);
         // customer_foreground
         const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
         customer_foreground.setOrigin(0, 0);
+        // customer_container (components)
+        const customer_containerCustomerManager = new CustomerManager(customer_container);
+        customer_containerCustomerManager.id = "customer_manager";
+        customer_container.emit("components-awake");
         // bottle_red (components)
         const bottle_redMakeupBottle = new MakeupBottle(bottle_red);
         bottle_redMakeupBottle.tint = bottle_red.tintTopLeft;
@@ -488,34 +530,44 @@ class Level extends Phaser.Scene {
         const bottle_blueMakeupBottle = new MakeupBottle(bottle_blue);
         bottle_blueMakeupBottle.tint = bottle_blue.tintTopLeft;
         bottle_blue.emit("components-awake");
-        // customer_container (components)
-        const customer_containerCustomerManager = new CustomerManager(customer_container);
-        customer_containerCustomerManager.id = "customer_manager";
-        customer_container.emit("components-awake");
+        // bottle_blue_1 (components)
+        const bottle_blue_1MakeupBottle = new MakeupBottle(bottle_blue_1);
+        bottle_blue_1MakeupBottle.tint = bottle_blue.tintTopLeft;
+        bottle_blue_1.emit("components-awake");
         // timerContainer (components)
         const timerContainerTimer = new Timer(timerContainer);
         timerContainerTimer.timer_length = 13;
         timerContainerTimer.icon = timer_icon;
         timerContainer.emit("components-awake");
         this.customer_container = customer_container;
+        this.bottle_red = bottle_red;
         this.timer_icon = timer_icon;
         this.text_whatwill = text_whatwill;
         this.request_container = request_container;
         this.request_head = request_head;
-        this.request_makeup = request_makeup;
+        this.makeup_list = makeup_list;
         this.customer_foreground = customer_foreground;
     }
     // Write your code here.
     create() {
         this.shuffle(this.customers_ids);
         this.editorCreate();
+        this.comparison_texture = this.add.renderTexture(0, 0, 400, 400);
         this.text_whatwill.visible = false;
         this.events.on(GameEvent.GAME_INTRO, this.introCustomer, this);
         this.events.on(GameEvent.TIMER_COMPLETE, this.onGameTimerComplete, this);
         this.events.on(GameEvent.NEW_CUSTOMER, this.loopGame, this);
         this.events.on(GameEvent.GAME_END, this.onGameComplete, this);
+        this.events.on(GameEvent.MAKEUP_SELECTED, this.onPaintSelected, this);
+        this.bottle_red.emit('pointerdown');
         this.createNewCustomer();
         this.events.emit(GameEvent.GAME_INTRO);
+    }
+    onPaintSelected(data) {
+        this.active_paint = data;
+        if (this.activeCustomerPrefab) {
+            this.activeCustomerPrefab.setBrush(this.active_paint);
+        }
     }
     introCustomer() {
         this.customer_container.x = 700;
@@ -548,7 +600,7 @@ class Level extends Phaser.Scene {
         this.events.emit(GameEvent.GAME_START);
     }
     onGameTimerComplete() {
-        let score = this.activeCustomerPrefab.getMakeupScore(true);
+        let score = this.activeCustomerPrefab.getMakeupScore(this.comparison_texture, true);
         console.log('starting difference percent : ' + this.starting_score);
         console.log('ending difference percent : ' + score);
         this.createNewCustomer();
@@ -587,13 +639,37 @@ class Level extends Phaser.Scene {
         let customer_id = this.getCurrentCustomerId();
         customer.setCustomer(customer_id);
         this.customer_foreground.setTexture("customer_" + customer_id + "_head_back");
-        let index = 1;
-        customer.setMakeupRequest(customer_id + '_makeup_' + index);
-        this.starting_score = customer.getMakeupScore();
+        let templates = [];
+        for (let i = 1; i <= 10; i++) {
+            console.log(customer_id + '_makeup_' + i);
+            templates.push(customer_id + '_makeup_' + i);
+        }
+        this.shuffle(templates);
+        let amount = 1 + Math.round(Math.random() * 2);
+        let requests = templates.slice(0, amount);
+        customer.setMakeupRequest(requests); //customer_id + '_makeup_' + index);
+        customer.setBrush(this.active_paint);
         //show preview head
         this.request_container.visible = true;
         this.request_head.setTexture('customer_' + customer_id + '_head');
-        this.request_makeup.setTexture(customer_id + '_makeup_' + index);
+        this.makeup_list.removeAll(true);
+        requests.forEach(entry => {
+            let img = this.make.image({
+                x: 0,
+                y: 0,
+                key: entry,
+                add: true,
+            });
+            let index = Math.floor(Math.random() * this.makeup_colors.length);
+            img.setTintFill(this.makeup_colors[index]);
+            this.makeup_list.add(img);
+        });
+        this.comparison_texture.clear();
+        this.request_container.setScale(1);
+        this.comparison_texture.visible = false;
+        this.comparison_texture.draw(this.makeup_list, 200, 200);
+        this.request_container.setScale(0.5);
+        this.starting_score = customer.getMakeupScore(this.comparison_texture);
         this.activeCustomerPrefab = customer;
         this.customer_container.add(customer);
     }
@@ -601,6 +677,7 @@ class Level extends Phaser.Scene {
         this.customer_index++;
     }
     getCurrentCustomerId() {
+        // return 'frank';
         return this.customers_ids[this.customer_index];
     }
 }
