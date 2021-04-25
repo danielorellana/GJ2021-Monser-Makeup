@@ -323,13 +323,8 @@ class Level extends Phaser.Scene {
 
 		this.request_container.setScale(1);
 		this.comparison_texture.visible = false;
-		this.comparison_texture.draw(this.makeup_list, 200, 200)//this.request_container.x, -this.request_container.y);
+		this.comparison_texture.draw(this.makeup_list, 200, 200);
 		this.request_container.setScale(0.5);
-
-		//this.comparison_texture.y = 50
-		// this.request_container.add(this.comparison_texture);
-
-		// this.request_makeup.setTexture(customer_id + '_makeup_' + index);
 
 		this.starting_score = customer.getMakeupScore(this.comparison_texture);
 
@@ -342,8 +337,8 @@ class Level extends Phaser.Scene {
   }
 
   getCurrentCustomerId() {
-		return 'frank';
-    // return this.customers_ids[this.customer_index];
+		// return 'frank';
+    return this.customers_ids[this.customer_index];
   }
   /* END-USER-CODE */
 }

@@ -72,6 +72,56 @@
                 "key": "elf_makeup_1"
             },
             {
+                "url": "assets/customers/requests/elf/elf_makeup_1.png",
+                "type": "image",
+                "key": "elf_makeup_1_1"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_10.png",
+                "type": "image",
+                "key": "elf_makeup_10"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_2.png",
+                "type": "image",
+                "key": "elf_makeup_2"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_3.png",
+                "type": "image",
+                "key": "elf_makeup_3"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_4.png",
+                "type": "image",
+                "key": "elf_makeup_4"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_5.png",
+                "type": "image",
+                "key": "elf_makeup_5"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_6.png",
+                "type": "image",
+                "key": "elf_makeup_6"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_7.png",
+                "type": "image",
+                "key": "elf_makeup_7"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_8.png",
+                "type": "image",
+                "key": "elf_makeup_8"
+            },
+            {
+                "url": "assets/customers/requests/elf/elf_makeup_9.png",
+                "type": "image",
+                "key": "elf_makeup_9"
+            },
+            {
                 "url": "assets/customers/elf_mask.png",
                 "type": "image",
                 "key": "elf_mask"
@@ -137,6 +187,56 @@
                 "key": "goblin_makeup_1"
             },
             {
+                "url": "assets/customers/requests/goblin/goblin_makeup_1.png",
+                "type": "image",
+                "key": "goblin_makeup_1_1"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_10.png",
+                "type": "image",
+                "key": "goblin_makeup_10"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_2.png",
+                "type": "image",
+                "key": "goblin_makeup_2"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_3.png",
+                "type": "image",
+                "key": "goblin_makeup_3"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_4.png",
+                "type": "image",
+                "key": "goblin_makeup_4"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_5.png",
+                "type": "image",
+                "key": "goblin_makeup_5"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_6.png",
+                "type": "image",
+                "key": "goblin_makeup_6"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_7.png",
+                "type": "image",
+                "key": "goblin_makeup_7"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_8.png",
+                "type": "image",
+                "key": "goblin_makeup_8"
+            },
+            {
+                "url": "assets/customers/requests/goblin/goblin_makeup_9.png",
+                "type": "image",
+                "key": "goblin_makeup_9"
+            },
+            {
                 "url": "assets/customers/goblin_mask.png",
                 "type": "image",
                 "key": "goblin_mask"
@@ -167,6 +267,56 @@
                 "key": "pig_makeup_1"
             },
             {
+                "url": "assets/customers/requests/pig/pig_makeup_1.png",
+                "type": "image",
+                "key": "pig_makeup_1_1"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_10.png",
+                "type": "image",
+                "key": "pig_makeup_10"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_2.png",
+                "type": "image",
+                "key": "pig_makeup_2"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_3.png",
+                "type": "image",
+                "key": "pig_makeup_3"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_4.png",
+                "type": "image",
+                "key": "pig_makeup_4"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_5.png",
+                "type": "image",
+                "key": "pig_makeup_5"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_6.png",
+                "type": "image",
+                "key": "pig_makeup_6"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_7.png",
+                "type": "image",
+                "key": "pig_makeup_7"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_8.png",
+                "type": "image",
+                "key": "pig_makeup_8"
+            },
+            {
+                "url": "assets/customers/requests/pig/pig_makeup_9.png",
+                "type": "image",
+                "key": "pig_makeup_9"
+            },
+            {
                 "url": "assets/customers/pig_mask.png",
                 "type": "image",
                 "key": "pig_mask"
@@ -175,6 +325,56 @@
                 "url": "assets/customers/steve_makeup_1.png",
                 "type": "image",
                 "key": "steve_makeup_1"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_1.png",
+                "type": "image",
+                "key": "steve_makeup_1_1"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_10.png",
+                "type": "image",
+                "key": "steve_makeup_10"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_2.png",
+                "type": "image",
+                "key": "steve_makeup_2"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_3.png",
+                "type": "image",
+                "key": "steve_makeup_3"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_4.png",
+                "type": "image",
+                "key": "steve_makeup_4"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_5.png",
+                "type": "image",
+                "key": "steve_makeup_5"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_6.png",
+                "type": "image",
+                "key": "steve_makeup_6"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_7.png",
+                "type": "image",
+                "key": "steve_makeup_7"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_8.png",
+                "type": "image",
+                "key": "steve_makeup_8"
+            },
+            {
+                "url": "assets/customers/requests/steve/steve_makeup_9.png",
+                "type": "image",
+                "key": "steve_makeup_9"
             },
             {
                 "url": "assets/customers/steve_mask.png",
