@@ -58,12 +58,12 @@ class CustomerDisplayerPrefab extends Phaser.GameObjects.Container {
 		this.paint_layer.setBrush(data);
 	}
 
-	setMakeupRequest(template_id) {
-		this.paint_layer.setMakeupRequest(template_id);
+	setMakeupRequest(template_ids) {
+		this.paint_layer.setMakeupRequest(template_ids);
 	}
 
-	getMakeupScore(showcanvas = false) {
-		return this.paint_layer.getMakeupScore(showcanvas);
+	getMakeupScore(rendertexture, showcanvas = false) {
+		return this.paint_layer.getMakeupScore(rendertexture, showcanvas);
 	}
 
 	// Write your code here.

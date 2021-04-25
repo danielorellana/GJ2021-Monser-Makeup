@@ -57,7 +57,7 @@ class PaintLayer extends UserComponent {
 		x = Math.round(x);
 		y = Math.round(y);
 
-		let density = 3;
+		let density = 1;
 		let i = 0;
 
 		this.render_texture.beginDraw();
@@ -66,6 +66,8 @@ class PaintLayer extends UserComponent {
 
 			const draw_x = x + delta.x * amount + (Math.random() - 0.5) * 5;
 			const draw_y = y + delta.y * amount + (Math.random() - 0.5) * 5;
+
+			this.brush_sprite.setScale( (3 + Math.random()) / 3)
 
 			this.render_texture.batchDraw(this.brush_sprite, draw_x, draw_y);
 			i += density;
@@ -78,12 +80,11 @@ class PaintLayer extends UserComponent {
 	}
 
 
-	getMakeupScore(showcanvas = false) {
+	getMakeupScore(compare_texture : Phaser.GameObjects.RenderTexture, showcanvas = false) {
 		let width = 400;
 		let height = 400;
 
 		let webgl_target = this.render_texture.renderTarget;
-
 		let mask_img = this.scene.textures.get(this.mask_id).getSourceImage(0) as HTMLImageElement;
 
 		var drawing_image_data;
@@ -117,32 +118,44 @@ class PaintLayer extends UserComponent {
 			out_ctx.drawImage(mask_img, 0, -height);
 
 			drawing_image_data = out_ctx.getImageData(0, 0, width, height).data;
-			
-		} else {
-			var texture_canvas = this.render_texture.context.canvas as HTMLCanvasElement;
-			let canvas_ctx = this.render_texture.context;
-			drawing_image_data = canvas_ctx.getImageData(0, 0, width, height).data;
 		}
-		
-		let compare_canvas = document.createElement('canvas');
-		let compare_ctx = compare_canvas.getContext('2d');
-		compare_canvas.width = width;
-		compare_canvas.height = height;
-		compare_ctx.scale(1, -1)
+	
+		let compare_data = null;
+		webgl_target = compare_texture.renderTarget;
+		{
+			let gl = (this.scene.renderer as Phaser.Renderer.WebGL.WebGLRenderer).gl;
+			var framebuffer = gl.createFramebuffer();
 
-		this.makeup_request_templates.forEach(entry => {
-			var compare_template = this.scene.textures.get(entry).getSourceImage(0) as HTMLImageElement;
-			compare_ctx.drawImage(compare_template, 0, -height)
+			gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+			gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, webgl_target.texture, 0);
 
-		})
-		compare_ctx.globalCompositeOperation = 'destination-in';
-		compare_ctx.drawImage(mask_img, 0, -height);
+			compare_data = new Uint8Array(width * height * 4);
+			gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, compare_data);
 
-		let compare_data = compare_ctx.getImageData(0, 0, width, height);
+			gl.deleteFramebuffer(framebuffer);
+
+			let out_canvas = document.createElement('canvas');
+			out_canvas.width = width;
+			out_canvas.height = height;
+
+			let out_ctx = out_canvas.getContext('2d');
+			
+			let image_data = out_ctx.createImageData(width, height);
+			image_data.data.set(compare_data);
+			
+			out_ctx.putImageData(image_data, 0, 0);
+			out_ctx.globalCompositeOperation = 'destination-in';
+			
+			out_ctx.scale(1, -1)
+			out_ctx.drawImage(mask_img, 0, -height);
+
+			compare_data = out_ctx.getImageData(0, 0, width, height).data;
+		}
+
 		
     var output_data = new ImageData(width, height);
 
-		let out = this.pixel_match_function(compare_data.data, drawing_image_data, output_data.data, width, height, {threshold : 0.15})
+		let out = this.pixel_match_function(compare_data, drawing_image_data, output_data.data, width, height, {threshold : 0.15})
 
 		let pct = out / (width * height) * 100;
 
@@ -185,7 +198,7 @@ class PaintLayer extends UserComponent {
 	setBrush(data) {
 		this.brush_data = data;
 
-		this.brush_sprite.tint = data.tint;
+		this.brush_sprite.setTint(data.tint);
 	}
 
 	setMakeupRequest(template_id) {
@@ -211,7 +224,9 @@ class PaintLayer extends UserComponent {
 			key : this.brush,
 			add : false,
 		});
-		
+
+		// this.brush_sprite.alpha = 0.6;
+		this.render_texture.alpha = 0.925;
 		this.render_texture.setInteractive();
 		this.render_texture.input.hitArea.setTo(0,0, 400, 400);
 

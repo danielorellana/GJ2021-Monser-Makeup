@@ -2,6 +2,8 @@
     "id": "6f556dd4-77bf-4bb8-9b63-38dbb4625334",
     "sceneType": "SCENE",
     "settings": {
+        "snapWidth": 64,
+        "snapHeight": 64,
         "preloadPackFiles": [],
         "createMethodName": "editorCreate",
         "sceneKey": "Level",
@@ -95,10 +97,10 @@
                     },
                     "x": 91,
                     "y": -24,
-                    "tintTopLeft": "#ff0000",
-                    "tintTopRight": "#ff0000",
-                    "tintBottomLeft": "#ff0000",
-                    "tintBottomRight": "#ff0000"
+                    "tintTopLeft": "#d61a1a",
+                    "tintTopRight": "#d61a1a",
+                    "tintBottomLeft": "#d61a1a",
+                    "tintBottomRight": "#d61a1a"
                 },
                 {
                     "type": "Image",
@@ -113,10 +115,10 @@
                     },
                     "x": 7,
                     "y": 7,
-                    "tintTopLeft": "#0000ff",
-                    "tintTopRight": "#0000ff",
-                    "tintBottomLeft": "#0000ff",
-                    "tintBottomRight": "#0000ff"
+                    "tintTopLeft": "#630bf2",
+                    "tintTopRight": "#630bf2",
+                    "tintBottomLeft": "#630bf2",
+                    "tintBottomRight": "#630bf2"
                 },
                 {
                     "type": "Image",
@@ -131,10 +133,46 @@
                     },
                     "x": -69,
                     "y": -16,
-                    "tintTopLeft": "#00ff00",
-                    "tintTopRight": "#00ff00",
-                    "tintBottomLeft": "#00ff00",
-                    "tintBottomRight": "#00ff00"
+                    "tintTopLeft": "#f8e75b",
+                    "tintTopRight": "#f8e75b",
+                    "tintBottomLeft": "#f8e75b",
+                    "tintBottomRight": "#f8e75b"
+                },
+                {
+                    "type": "Image",
+                    "id": "83a2a24c-4e50-42e0-b1ab-a49a2f02f922",
+                    "label": "bottle_blue_2",
+                    "components": [
+                        "MakeupBottle"
+                    ],
+                    "MakeupBottle.tint": "bottle_blue.tintTopLeft",
+                    "texture": {
+                        "key": "makeup_bottle"
+                    },
+                    "x": -48,
+                    "y": 46,
+                    "tintTopLeft": "#2fe280",
+                    "tintTopRight": "#2fe280",
+                    "tintBottomLeft": "#2fe280",
+                    "tintBottomRight": "#2fe280"
+                },
+                {
+                    "type": "Image",
+                    "id": "b7405fd2-9179-4699-942f-2403b21c3c27",
+                    "label": "bottle_blue_3_1",
+                    "components": [
+                        "MakeupBottle"
+                    ],
+                    "MakeupBottle.tint": "bottle_blue.tintTopLeft",
+                    "texture": {
+                        "key": "makeup_bottle"
+                    },
+                    "x": 79,
+                    "y": 40,
+                    "tintTopLeft": "#f01dff",
+                    "tintTopRight": "#f01dff",
+                    "tintBottomLeft": "#f01dff",
+                    "tintBottomRight": "#f01dff"
                 }
             ]
         },
@@ -161,22 +199,6 @@
                     }
                 }
             ]
-        },
-        {
-            "type": "Text",
-            "id": "e697a319-9d61-4b69-98e6-5dee289189ff",
-            "label": "text_whatwill",
-            "scope": "CLASS",
-            "components": [],
-            "x": 639,
-            "y": 132,
-            "text": "What will it be?",
-            "fontSize": "24px",
-            "strokeThickness": 1,
-            "backgroundColor": "",
-            "shadow.offsetX": 3,
-            "shadow.offsetY": 3,
-            "shadow.stroke": true
         },
         {
             "type": "Container",
@@ -220,8 +242,37 @@
                     "scope": "PUBLIC",
                     "components": [],
                     "list": []
+                },
+                {
+                    "type": "Image",
+                    "id": "3fef6d0c-2d33-48f0-a997-c4079cda3677",
+                    "label": "image",
+                    "components": [],
+                    "texture": {
+                        "key": "cutout"
+                    },
+                    "x": 7,
+                    "y": 30,
+                    "scaleX": 1.5042186768858377,
+                    "scaleY": 1.206779112303157
                 }
             ]
+        },
+        {
+            "type": "Text",
+            "id": "e697a319-9d61-4b69-98e6-5dee289189ff",
+            "label": "text_whatwill",
+            "scope": "CLASS",
+            "components": [],
+            "x": 639,
+            "y": 132,
+            "text": "What will it be?",
+            "fontSize": "24px",
+            "strokeThickness": 1,
+            "backgroundColor": "",
+            "shadow.offsetX": 3,
+            "shadow.offsetY": 3,
+            "shadow.stroke": true
         },
         {
             "type": "Image",
@@ -236,6 +287,40 @@
             "y": 261,
             "originX": 0,
             "originY": 0
+        },
+        {
+            "type": "Container",
+            "id": "88df16b0-21cd-4862-9f59-9e76f0d699ae",
+            "label": "grade_container",
+            "scope": "PUBLIC",
+            "components": [],
+            "x": 426,
+            "y": 193,
+            "list": [
+                {
+                    "type": "Text",
+                    "id": "3134c04c-6afa-402d-bd97-48f4e36adfda",
+                    "label": "grade_text",
+                    "scope": "PUBLIC",
+                    "components": [],
+                    "x": -400,
+                    "y": -50,
+                    "originX": 0,
+                    "originY": 0,
+                    "text": "S+",
+                    "fixedWidth": 800,
+                    "align": "center",
+                    "fontSize": "128px",
+                    "fontStyle": "bold",
+                    "color": "#ef0000ff",
+                    "stroke": "#000000ff",
+                    "shadow.offsetX": 2,
+                    "shadow.offsetY": 2,
+                    "shadow.stroke": true,
+                    "shadow.fill": true,
+                    "shadow.color": "#000000ff"
+                }
+            ]
         }
     ],
     "plainObjects": [],
