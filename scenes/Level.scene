@@ -149,24 +149,6 @@
                 },
                 {
                     "type": "Image",
-                    "id": "a0e33969-2575-4a07-b59a-76a34be70254",
-                    "label": "bottle_blue_3",
-                    "components": [
-                        "MakeupBottle"
-                    ],
-                    "MakeupBottle.tint": "bottle_blue.tintTopLeft",
-                    "texture": {
-                        "key": "makeup_bottle"
-                    },
-                    "x": 92,
-                    "y": 60,
-                    "tintTopLeft": "#170412",
-                    "tintTopRight": "#170412",
-                    "tintBottomLeft": "#170412",
-                    "tintBottomRight": "#170412"
-                },
-                {
-                    "type": "Image",
                     "id": "b7405fd2-9179-4699-942f-2403b21c3c27",
                     "label": "bottle_blue_3_1",
                     "components": [
@@ -176,12 +158,12 @@
                     "texture": {
                         "key": "makeup_bottle"
                     },
-                    "x": 16,
-                    "y": 70,
-                    "tintTopLeft": "#bdbbb5",
-                    "tintTopRight": "#bdbbb5",
-                    "tintBottomLeft": "#bdbbb5",
-                    "tintBottomRight": "#bdbbb5"
+                    "x": 79,
+                    "y": 40,
+                    "tintTopLeft": "#f01dff",
+                    "tintTopRight": "#f01dff",
+                    "tintBottomLeft": "#f01dff",
+                    "tintBottomRight": "#f01dff"
                 }
             ]
         },
@@ -284,28 +266,38 @@
             "originY": 0
         },
         {
-            "type": "Text",
-            "id": "3134c04c-6afa-402d-bd97-48f4e36adfda",
-            "label": "grade_text",
+            "type": "Container",
+            "id": "88df16b0-21cd-4862-9f59-9e76f0d699ae",
+            "label": "grade_container",
             "scope": "PUBLIC",
             "components": [],
-            "x": 366,
-            "y": 140,
-            "originX": 0,
-            "originY": 0,
-            "text": "S+",
-            "fixedWidth": 200,
-            "fixedHeight": 200,
-            "align": "center",
-            "fontSize": "128px",
-            "fontStyle": "bold",
-            "color": "#ef0000ff",
-            "stroke": "#000000ff",
-            "shadow.offsetX": 2,
-            "shadow.offsetY": 2,
-            "shadow.stroke": true,
-            "shadow.fill": true,
-            "shadow.color": "#000000ff"
+            "x": 426,
+            "y": 193,
+            "list": [
+                {
+                    "type": "Text",
+                    "id": "3134c04c-6afa-402d-bd97-48f4e36adfda",
+                    "label": "grade_text",
+                    "scope": "PUBLIC",
+                    "components": [],
+                    "x": -400,
+                    "y": -50,
+                    "originX": 0,
+                    "originY": 0,
+                    "text": "S+",
+                    "fixedWidth": 800,
+                    "align": "center",
+                    "fontSize": "128px",
+                    "fontStyle": "bold",
+                    "color": "#ef0000ff",
+                    "stroke": "#000000ff",
+                    "shadow.offsetX": 2,
+                    "shadow.offsetY": 2,
+                    "shadow.stroke": true,
+                    "shadow.fill": true,
+                    "shadow.color": "#000000ff"
+                }
+            ]
         }
     ],
     "plainObjects": [],
