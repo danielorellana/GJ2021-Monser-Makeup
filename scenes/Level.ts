@@ -225,7 +225,7 @@ class Level extends Phaser.Scene {
   onGameTimerComplete() {
 
 		
-		let score = this.activeCustomerPrefab.getMakeupScore(this.comparison_texture, true);
+		let score = this.activeCustomerPrefab.getMakeupScore(this.comparison_texture);
 
 		console.log('starting difference percent : ' + this.starting_score);
 		console.log('ending difference percent : ' + score);
