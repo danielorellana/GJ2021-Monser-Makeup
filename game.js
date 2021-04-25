@@ -503,19 +503,12 @@ class Level extends Phaser.Scene {
         bottle_blue_2.tintBottomLeft = 3138176;
         bottle_blue_2.tintBottomRight = 3138176;
         makeup.add(bottle_blue_2);
-        // bottle_blue_3
-        const bottle_blue_3 = this.add.image(92, 60, "makeup_bottle");
-        bottle_blue_3.tintTopLeft = 1508370;
-        bottle_blue_3.tintTopRight = 1508370;
-        bottle_blue_3.tintBottomLeft = 1508370;
-        bottle_blue_3.tintBottomRight = 1508370;
-        makeup.add(bottle_blue_3);
         // bottle_blue_3_1
-        const bottle_blue_3_1 = this.add.image(16, 70, "makeup_bottle");
-        bottle_blue_3_1.tintTopLeft = 12434357;
-        bottle_blue_3_1.tintTopRight = 12434357;
-        bottle_blue_3_1.tintBottomLeft = 12434357;
-        bottle_blue_3_1.tintBottomRight = 12434357;
+        const bottle_blue_3_1 = this.add.image(79, 40, "makeup_bottle");
+        bottle_blue_3_1.tintTopLeft = 15736319;
+        bottle_blue_3_1.tintTopRight = 15736319;
+        bottle_blue_3_1.tintBottomLeft = 15736319;
+        bottle_blue_3_1.tintBottomRight = 15736319;
         makeup.add(bottle_blue_3_1);
         // timerContainer
         const timerContainer = this.add.container(48, 45);
@@ -545,10 +538,13 @@ class Level extends Phaser.Scene {
         // customer_foreground
         const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
         customer_foreground.setOrigin(0, 0);
+        // grade_container
+        const grade_container = this.add.container(426, 193);
         // grade_text
-        const grade_text = this.add.text(366, 140, "", {});
+        const grade_text = this.add.text(-400, -50, "", {});
         grade_text.text = "S+";
-        grade_text.setStyle({ "align": "center", "color": "#ef0000ff", "fixedWidth": 200, "fixedHeight": 200, "fontSize": "128px", "fontStyle": "bold", "stroke": "#000000ff", "shadow.offsetX": 2, "shadow.offsetY": 2, "shadow.color": "#000000ff", "shadow.stroke": true, "shadow.fill": true });
+        grade_text.setStyle({ "align": "center", "color": "#ef0000ff", "fixedWidth": 800, "fontSize": "128px", "fontStyle": "bold", "stroke": "#000000ff", "shadow.offsetX": 2, "shadow.offsetY": 2, "shadow.color": "#000000ff", "shadow.stroke": true, "shadow.fill": true });
+        grade_container.add(grade_text);
         // customer_container (components)
         const customer_containerCustomerManager = new CustomerManager(customer_container);
         customer_containerCustomerManager.id = "customer_manager";
@@ -569,10 +565,6 @@ class Level extends Phaser.Scene {
         const bottle_blue_2MakeupBottle = new MakeupBottle(bottle_blue_2);
         bottle_blue_2MakeupBottle.tint = bottle_blue.tintTopLeft;
         bottle_blue_2.emit("components-awake");
-        // bottle_blue_3 (components)
-        const bottle_blue_3MakeupBottle = new MakeupBottle(bottle_blue_3);
-        bottle_blue_3MakeupBottle.tint = bottle_blue.tintTopLeft;
-        bottle_blue_3.emit("components-awake");
         // bottle_blue_3_1 (components)
         const bottle_blue_3_1MakeupBottle = new MakeupBottle(bottle_blue_3_1);
         bottle_blue_3_1MakeupBottle.tint = bottle_blue.tintTopLeft;
@@ -590,6 +582,7 @@ class Level extends Phaser.Scene {
         this.makeup_list = makeup_list;
         this.text_whatwill = text_whatwill;
         this.customer_foreground = customer_foreground;
+        this.grade_container = grade_container;
         this.grade_text = grade_text;
     }
     // Write your code here.
@@ -650,11 +643,11 @@ class Level extends Phaser.Scene {
         let grade = this.getGrade(this.starting_score, score);
         this.grades.push(grade);
         this.grade_text.text = grade;
-        this.grade_text.visible = true;
-        this.grade_text.setScale(1.5);
+        this.grade_container.visible = true;
+        this.grade_container.setScale(1.5);
         this.tweens.add({
             duration: 500,
-            targets: this.grade_text,
+            targets: this.grade_container,
             ease: Phaser.Math.Easing.Quintic.Out,
             scaleX: 1,
             scaleY: 1,
@@ -678,8 +671,20 @@ class Level extends Phaser.Scene {
         else if (pct > 10) {
             return 'C';
         }
-        else {
+        else if (pct > -5) {
             return 'F';
+        }
+        else {
+            let options = [
+                'WHAT?',
+                ':^(',
+                'y?',
+                'no',
+                'Z',
+                'F-',
+                'no no no'
+            ];
+            return options[Math.floor(options.length * Math.random())];
         }
     }
     loopGame() {
@@ -706,7 +711,7 @@ class Level extends Phaser.Scene {
         this.customer_container.removeAll(true);
     }
     createNewCustomer() {
-        this.grade_text.visible = false;
+        this.grade_container.visible = false;
         this.removeOldCustomer();
         this.selectNewCustomer();
         let customer = new CustomerDisplayerPrefab(this, 0, 0);
