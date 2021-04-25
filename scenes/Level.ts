@@ -69,18 +69,36 @@ class Level extends Phaser.Scene {
 		bottle_blue_1.tintBottomRight = 16312155;
 		makeup.add(bottle_blue_1);
 		
+		// bottle_blue_2
+		const bottle_blue_2 = this.add.image(-48, 46, "makeup_bottle");
+		bottle_blue_2.tintTopLeft = 3138176;
+		bottle_blue_2.tintTopRight = 3138176;
+		bottle_blue_2.tintBottomLeft = 3138176;
+		bottle_blue_2.tintBottomRight = 3138176;
+		makeup.add(bottle_blue_2);
+		
+		// bottle_blue_3
+		const bottle_blue_3 = this.add.image(92, 60, "makeup_bottle");
+		bottle_blue_3.tintTopLeft = 1508370;
+		bottle_blue_3.tintTopRight = 1508370;
+		bottle_blue_3.tintBottomLeft = 1508370;
+		bottle_blue_3.tintBottomRight = 1508370;
+		makeup.add(bottle_blue_3);
+		
+		// bottle_blue_3_1
+		const bottle_blue_3_1 = this.add.image(16, 70, "makeup_bottle");
+		bottle_blue_3_1.tintTopLeft = 12434357;
+		bottle_blue_3_1.tintTopRight = 12434357;
+		bottle_blue_3_1.tintBottomLeft = 12434357;
+		bottle_blue_3_1.tintBottomRight = 12434357;
+		makeup.add(bottle_blue_3_1);
+		
 		// timerContainer
 		const timerContainer = this.add.container(48, 45);
 		
 		// timer_icon
 		const timer_icon = this.add.image(0, 0, "timer_icon");
 		timerContainer.add(timer_icon);
-		
-		// text_whatwill
-		const text_whatwill = this.add.text(639, 132, "", {});
-		text_whatwill.setOrigin(0.5, 0.5);
-		text_whatwill.text = "What will it be?";
-		text_whatwill.setStyle({"backgroundColor":"","fontSize":"24px","strokeThickness":1,"shadow.offsetX":3,"shadow.offsetY":3,"shadow.stroke":true});
 		
 		// request_container
 		const request_container = this.add.container(633, 218);
@@ -95,9 +113,26 @@ class Level extends Phaser.Scene {
 		const makeup_list = this.add.container(0, 0);
 		request_container.add(makeup_list);
 		
+		// image
+		const image = this.add.image(7, 30, "cutout");
+		image.scaleX = 1.5042186768858377;
+		image.scaleY = 1.206779112303157;
+		request_container.add(image);
+		
+		// text_whatwill
+		const text_whatwill = this.add.text(639, 132, "", {});
+		text_whatwill.setOrigin(0.5, 0.5);
+		text_whatwill.text = "What will it be?";
+		text_whatwill.setStyle({"backgroundColor":"","fontSize":"24px","strokeThickness":1,"shadow.offsetX":3,"shadow.offsetY":3,"shadow.stroke":true});
+		
 		// customer_foreground
 		const customer_foreground = this.add.image(280, 261, "customer_steve_head_back");
 		customer_foreground.setOrigin(0, 0);
+		
+		// grade_text
+		const grade_text = this.add.text(366, 140, "", {});
+		grade_text.text = "S+";
+		grade_text.setStyle({"align":"center","color":"#ef0000ff","fixedWidth":200,"fixedHeight":200,"fontSize":"128px","fontStyle":"bold","stroke":"#000000ff","shadow.offsetX":2,"shadow.offsetY":2,"shadow.color":"#000000ff","shadow.stroke":true,"shadow.fill":true});
 		
 		// customer_container (components)
 		const customer_containerCustomerManager = new CustomerManager(customer_container);
@@ -119,6 +154,21 @@ class Level extends Phaser.Scene {
 		bottle_blue_1MakeupBottle.tint = bottle_blue.tintTopLeft;
 		bottle_blue_1.emit("components-awake");
 		
+		// bottle_blue_2 (components)
+		const bottle_blue_2MakeupBottle = new MakeupBottle(bottle_blue_2);
+		bottle_blue_2MakeupBottle.tint = bottle_blue.tintTopLeft;
+		bottle_blue_2.emit("components-awake");
+		
+		// bottle_blue_3 (components)
+		const bottle_blue_3MakeupBottle = new MakeupBottle(bottle_blue_3);
+		bottle_blue_3MakeupBottle.tint = bottle_blue.tintTopLeft;
+		bottle_blue_3.emit("components-awake");
+		
+		// bottle_blue_3_1 (components)
+		const bottle_blue_3_1MakeupBottle = new MakeupBottle(bottle_blue_3_1);
+		bottle_blue_3_1MakeupBottle.tint = bottle_blue.tintTopLeft;
+		bottle_blue_3_1.emit("components-awake");
+		
 		// timerContainer (components)
 		const timerContainerTimer = new Timer(timerContainer);
 		timerContainerTimer.timer_length = 13;
@@ -128,26 +178,30 @@ class Level extends Phaser.Scene {
 		this.customer_container = customer_container;
 		this.bottle_red = bottle_red;
 		this.timer_icon = timer_icon;
-		this.text_whatwill = text_whatwill;
 		this.request_container = request_container;
 		this.request_head = request_head;
 		this.makeup_list = makeup_list;
+		this.text_whatwill = text_whatwill;
 		this.customer_foreground = customer_foreground;
+		this.grade_text = grade_text;
 	}
 	
 	public customer_container: Phaser.GameObjects.Container|undefined;
 	public bottle_red: Phaser.GameObjects.Image|undefined;
 	private timer_icon: Phaser.GameObjects.Image|undefined;
-	private text_whatwill: Phaser.GameObjects.Text|undefined;
 	public request_container: Phaser.GameObjects.Container|undefined;
 	public request_head: Phaser.GameObjects.Image|undefined;
 	public makeup_list: Phaser.GameObjects.Container|undefined;
+	private text_whatwill: Phaser.GameObjects.Text|undefined;
 	public customer_foreground: Phaser.GameObjects.Image|undefined;
+	public grade_text: Phaser.GameObjects.Text|undefined;
 	
 	/* START-USER-CODE */
 
 	private activeCustomerPrefab : CustomerDisplayerPrefab;
   private customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
+
+	private grades = [];
 
 	public makeup_colors = [];
   private customer_index = -1;
@@ -230,12 +284,48 @@ class Level extends Phaser.Scene {
 		console.log('starting difference percent : ' + this.starting_score);
 		console.log('ending difference percent : ' + score);
 
-		this.createNewCustomer();
+		let grade = this.getGrade(this.starting_score, score);
+		this.grades.push(grade);
 
-    if (this.customer_index <= this.customers_ids.length-1) {
-	  	this.events.emit(GameEvent.GAME_INTRO);
-    }
+		this.grade_text.text = grade;
+		this.grade_text.visible = true;
+
+		this.grade_text.setScale(1.5);
+
+		this.tweens.add({
+      duration: 500,
+      targets: this.grade_text,
+      ease: Phaser.Math.Easing.Quintic.Out,
+      scaleX: 1,
+			scaleY: 1,
+    });
+
+		setTimeout(() => {
+
+
+				this.createNewCustomer();
+				this.events.emit(GameEvent.GAME_INTRO);
+		}, 1500)
+
+
   }
+
+	getGrade(start_score : number, final_score : number) {
+		
+		let pct = 100 - (final_score * (100 / start_score));
+
+		if (pct > 85) {
+			return 'S+';
+		} else if (pct > 55) {
+			return 'A';
+		} else if (pct > 35) {
+			return 'B';
+		} else if (pct > 10) {
+			return 'C';
+		} else {
+			return 'F'
+		}
+	}
 
   loopGame() {
 	}
@@ -268,6 +358,7 @@ class Level extends Phaser.Scene {
 	}
 
 	createNewCustomer() {
+		this.grade_text.visible = false;
 		this.removeOldCustomer();
 
 		this.selectNewCustomer();
@@ -285,12 +376,11 @@ class Level extends Phaser.Scene {
 
 		let templates = [];
 		for (let i = 1; i <= 10; i ++) {
-			console.log(customer_id + '_makeup_' + i)
 			templates.push(customer_id + '_makeup_' + i);
 		}
 		this.shuffle(templates);
 
-		let amount = 1 + Math.round(Math.random() * 2);
+		let amount = 2 + Math.round(Math.random() * 3);
 
 		let requests = templates.slice(0, amount);
 
@@ -334,6 +424,11 @@ class Level extends Phaser.Scene {
 
   selectNewCustomer() {
     this.customer_index++;
+		if (this.customer_index > this.customers_ids.length -1) {
+			
+			this.shuffle(this.customers_ids);
+			this.customer_index = 0;
+		}
   }
 
   getCurrentCustomerId() {
