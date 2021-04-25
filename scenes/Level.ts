@@ -47,26 +47,26 @@ class Level extends Phaser.Scene {
 		
 		// bottle_red
 		const bottle_red = this.add.image(91, -24, "makeup_bottle");
-		bottle_red.tintTopLeft = 16711680;
-		bottle_red.tintTopRight = 16711680;
-		bottle_red.tintBottomLeft = 16711680;
-		bottle_red.tintBottomRight = 16711680;
+		bottle_red.tintTopLeft = 14031386;
+		bottle_red.tintTopRight = 14031386;
+		bottle_red.tintBottomLeft = 14031386;
+		bottle_red.tintBottomRight = 14031386;
 		makeup.add(bottle_red);
 		
 		// bottle_blue
 		const bottle_blue = this.add.image(7, 7, "makeup_bottle");
-		bottle_blue.tintTopLeft = 255;
-		bottle_blue.tintTopRight = 255;
-		bottle_blue.tintBottomLeft = 255;
-		bottle_blue.tintBottomRight = 255;
+		bottle_blue.tintTopLeft = 6491122;
+		bottle_blue.tintTopRight = 6491122;
+		bottle_blue.tintBottomLeft = 6491122;
+		bottle_blue.tintBottomRight = 6491122;
 		makeup.add(bottle_blue);
 		
 		// bottle_blue_1
 		const bottle_blue_1 = this.add.image(-69, -16, "makeup_bottle");
-		bottle_blue_1.tintTopLeft = 65280;
-		bottle_blue_1.tintTopRight = 65280;
-		bottle_blue_1.tintBottomLeft = 65280;
-		bottle_blue_1.tintBottomRight = 65280;
+		bottle_blue_1.tintTopLeft = 16312155;
+		bottle_blue_1.tintTopRight = 16312155;
+		bottle_blue_1.tintBottomLeft = 16312155;
+		bottle_blue_1.tintBottomRight = 16312155;
 		makeup.add(bottle_blue_1);
 		
 		// timerContainer
@@ -148,9 +148,13 @@ class Level extends Phaser.Scene {
 
 	private activeCustomerPrefab : CustomerDisplayerPrefab;
   private customers_ids = ["pig", "frank", "steve", "goblin", "elf"];
+
+	public makeup_colors = [];
   private customer_index = -1;
 
 	private active_paint;
+
+	private comparison_texture:Phaser.GameObjects.RenderTexture;
 
 	private starting_score = 0;
 
@@ -160,6 +164,9 @@ class Level extends Phaser.Scene {
     this.shuffle(this.customers_ids);
 
     this.editorCreate();
+
+		this.comparison_texture = this.add.renderTexture(0,0, 400, 400);
+
     this.text_whatwill.visible = false;
 
     this.events.on(GameEvent.GAME_INTRO, this.introCustomer, this);
@@ -218,7 +225,7 @@ class Level extends Phaser.Scene {
   onGameTimerComplete() {
 
 		
-		let score = this.activeCustomerPrefab.getMakeupScore(true);
+		let score = this.activeCustomerPrefab.getMakeupScore(this.comparison_texture, true);
 
 		console.log('starting difference percent : ' + this.starting_score);
 		console.log('ending difference percent : ' + score);
@@ -290,7 +297,6 @@ class Level extends Phaser.Scene {
 		customer.setMakeupRequest(requests) ;//customer_id + '_makeup_' + index);
 		customer.setBrush(this.active_paint);
 
-		this.starting_score = customer.getMakeupScore();
 
 
 		//show preview head
@@ -306,11 +312,26 @@ class Level extends Phaser.Scene {
 				key : entry,
 				add : true,
 			});
+
+			let index = Math.floor(Math.random() * this.makeup_colors.length);
+			img.setTintFill(this.makeup_colors[index])
+
 			this.makeup_list.add(img);
-		})
+		});
+
+		this.comparison_texture.clear();
+
+		this.request_container.setScale(1);
+		this.comparison_texture.visible = false;
+		this.comparison_texture.draw(this.makeup_list, 200, 200)//this.request_container.x, -this.request_container.y);
+		this.request_container.setScale(0.5);
+
+		//this.comparison_texture.y = 50
+		// this.request_container.add(this.comparison_texture);
 
 		// this.request_makeup.setTexture(customer_id + '_makeup_' + index);
 
+		this.starting_score = customer.getMakeupScore(this.comparison_texture);
 
 		this.activeCustomerPrefab = customer;
 		this.customer_container.add(customer);

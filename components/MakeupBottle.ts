@@ -26,6 +26,7 @@ class MakeupBottle extends UserComponent {
 
 	awake() {
 		this.tint = this.gameObject.tintTopLeft;
+		(this.scene as Level).makeup_colors.push(this.gameObject.tintTopLeft);
 		this.gameObject.setInteractive().on("pointerdown", this.setActive, this);
 	}
 
