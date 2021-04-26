@@ -566,10 +566,12 @@ class Level extends Phaser.Scene {
         // grade_container
         const grade_container = this.add.container(426, 193);
         // grade_text
-        const grade_text = this.add.text(-253, 37, "", {});
+        const grade_text = this.add.text(-120, -48, "", {});
         grade_text.text = "S+";
         grade_text.setStyle({ "align": "center", "color": "#ef0000ff", "fixedWidth": 800, "fontSize": "128px", "fontStyle": "bold", "stroke": "#000000ff", "shadow.offsetX": 2, "shadow.offsetY": 2, "shadow.color": "#000000ff", "shadow.stroke": true, "shadow.fill": true });
         grade_container.add(grade_text);
+        // next_customer_btn
+        const next_customer_btn = this.add.sprite(708, 283, "next_btn");
         // customer_container (components)
         const customer_containerCustomerManager = new CustomerManager(customer_container);
         customer_containerCustomerManager.id = "customer_manager";
@@ -615,11 +617,13 @@ class Level extends Phaser.Scene {
         this.customer_foreground = customer_foreground;
         this.grade_container = grade_container;
         this.grade_text = grade_text;
+        this.next_customer_btn = next_customer_btn;
     }
     // Write your code here.
     create() {
         this.shuffle(this.customers_ids);
         this.editorCreate();
+        this.next_customer_btn.visible = false;
         this.mirror_bg.setDepth(-2);
         this.comparison_texture = this.add.renderTexture(0, 0, 400, 400);
         this.text_whatwill.visible = false;
@@ -643,6 +647,7 @@ class Level extends Phaser.Scene {
         this.customer_container.y = 33;
         this.customer_container.setDepth(-1);
         this.customer_foreground.visible = true;
+        this.next_customer_btn.visible = false;
         let timeline = this.tweens.createTimeline();
         timeline.add({
             duration: 1000,
@@ -728,9 +733,11 @@ class Level extends Phaser.Scene {
                 this.request_container.scale = 0.5;
                 this.request_container.x = 880;
                 this.request_container.y = 520;
-            },
-            onComplete: () => {
-                this.events.emit(GameEvent.NEW_CUSTOMER);
+                setTimeout(() => {
+                    this.next_customer_btn.visible = true;
+                    this.next_customer_btn.setInteractive();
+                    this.next_customer_btn.on('pointerup', this.onNextCustomerBtnClicked, this);
+                }, 1500);
             },
         });
         timeline.play();
@@ -750,7 +757,7 @@ class Level extends Phaser.Scene {
         });
         timeline.add({
             completeDelay: 1000,
-            duration: 1000,
+            duration: 700,
             targets: this.cameras.main,
             ease: Phaser.Math.Easing.Linear,
             scrollX: 0,
@@ -763,6 +770,12 @@ class Level extends Phaser.Scene {
             },
         });
         timeline.play();
+    }
+    onNextCustomerBtnClicked() {
+        this.next_customer_btn.visible = false;
+        this.next_customer_btn.removeInteractive();
+        this.next_customer_btn.off('pointerup', this.onNextCustomerBtnClicked, this);
+        this.events.emit(GameEvent.NEW_CUSTOMER);
     }
     getGrade(start_score, final_score) {
         let pct = 100 - final_score * (100 / start_score);
