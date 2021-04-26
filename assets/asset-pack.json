@@ -402,7 +402,7 @@
                 "key": "thought_bubble_3"
             },
             {
-                "url": "scenes/thought_bubble_anim.json",
+                "url": "assets/thought_bubble/thought_bubble_anim.json",
                 "type": "animation",
                 "key": "thought_bubble_anim"
             },

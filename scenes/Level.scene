@@ -7,24 +7,16 @@
         "preloadPackFiles": [],
         "createMethodName": "editorCreate",
         "sceneKey": "Level",
-        "compilerOutputLanguage": "TYPE_SCRIPT"
+        "compilerOutputLanguage": "TYPE_SCRIPT",
+        "borderWidth": 1000,
+        "borderHeight": 1000
     },
     "displayList": [
         {
-            "type": "Image",
-            "id": "9bd10939-5f1f-4fae-af5f-8279460a38a2",
-            "label": "mirror_scene_frame",
-            "components": [],
-            "texture": {
-                "key": "mirror_scene_frame"
-            },
-            "x": 400,
-            "y": 300
-        },
-        {
             "type": "Rectangle",
             "id": "6f4faf9c-c2ca-4db7-b3b7-5277b52c26ea",
-            "label": "rectangle",
+            "label": "mirror_bg",
+            "scope": "CLASS",
             "components": [],
             "x": 273,
             "y": 251,
@@ -72,8 +64,8 @@
             "texture": {
                 "key": "mirror_scene_frame"
             },
-            "x": 400,
-            "y": 300
+            "originX": 0,
+            "originY": 0
         },
         {
             "type": "Container",
@@ -183,7 +175,7 @@
             "components": [
                 "Timer"
             ],
-            "Timer.timer_length": 1,
+            "Timer.timer_length": 20,
             "Timer.icon": "timer_icon",
             "x": 48,
             "y": 45,
@@ -206,8 +198,8 @@
             "label": "request_container",
             "scope": "PUBLIC",
             "components": [],
-            "x": 606,
-            "y": 204,
+            "x": 600,
+            "y": 200,
             "scaleX": 0.5,
             "scaleY": 0.5,
             "list": [
@@ -220,7 +212,7 @@
                     ],
                     "StartAnimation.animation_key": "animate",
                     "texture": {
-                        "key": "thought_bubble_3"
+                        "key": "thought_bubble_1"
                     },
                     "scaleX": 1.8,
                     "scaleY": 1.8
@@ -242,19 +234,6 @@
                     "scope": "PUBLIC",
                     "components": [],
                     "list": []
-                },
-                {
-                    "type": "Image",
-                    "id": "3fef6d0c-2d33-48f0-a997-c4079cda3677",
-                    "label": "image",
-                    "components": [],
-                    "texture": {
-                        "key": "cutout"
-                    },
-                    "x": 7,
-                    "y": 30,
-                    "scaleX": 1.5042186768858377,
-                    "scaleY": 1.206779112303157
                 }
             ]
         },
@@ -283,8 +262,8 @@
             "texture": {
                 "key": "customer_steve_head_back"
             },
-            "x": 280,
-            "y": 261,
+            "x": 293,
+            "y": 274,
             "originX": 0,
             "originY": 0
         },
@@ -303,8 +282,8 @@
                     "label": "grade_text",
                     "scope": "PUBLIC",
                     "components": [],
-                    "x": -400,
-                    "y": -50,
+                    "x": -253,
+                    "y": 37,
                     "originX": 0,
                     "originY": 0,
                     "text": "S+",

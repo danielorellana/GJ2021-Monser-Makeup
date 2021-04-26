@@ -107,6 +107,22 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "StartAnimation",
+            "baseClass": "UserComponent",
+            "gameObjectType": "Phaser.GameObjects.Sprite",
+            "properties": [
+                {
+                    "name": "animation_key",
+                    "label": "animation_key",
+                    "tooltip": "animation_key 1",
+                    "defValue": "",
+                    "type": {
+                        "id": "animation-key"
+                    }
+                }
+            ]
         }
     ],
     "meta": {

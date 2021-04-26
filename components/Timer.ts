@@ -11,35 +11,35 @@ class Timer extends UserComponent {
 		(gameObject as any)["__Timer"] = this;
 		
 		/* START-USER-CTR-CODE */
-    let rect_bg = this.scene.add.rectangle(
-      0,
-      0,
-      this.initial_bar_width,
-      16,
-      0x000000,
-      1
-    );
-    rect_bg.displayOriginX = 0;
-    this.gameObject.add(rect_bg);
+		let rect_bg = this.scene.add.rectangle(
+			0,
+			0,
+			this.initial_bar_width,
+			16,
+			0x000000,
+			1
+		);
+		rect_bg.displayOriginX = 0;
+		this.gameObject.add(rect_bg);
 
-    this.progress_bar = this.scene.add.rectangle(
-      0,
-      0,
-      this.initial_bar_width,
-      16,
-      0xff732e,
-      1
-    );
-    this.progress_bar.displayOriginX = 0;
-    this.gameObject.add(this.progress_bar);
+		this.progress_bar = this.scene.add.rectangle(
+			0,
+			0,
+			this.initial_bar_width,
+			16,
+			0xff732e,
+			1
+		);
+		this.progress_bar.displayOriginX = 0;
+		this.gameObject.add(this.progress_bar);
 
-    let rect_frame = this.scene.add.graphics({
-      lineStyle: { color: 0xffffff, width: 4 },
-    });
-    rect_frame.strokeRoundedRect(0, -8, this.initial_bar_width, 16, 3);
-    this.gameObject.add(rect_frame);
+		let rect_frame = this.scene.add.graphics({
+			lineStyle: { color: 0xffffff, width: 4 },
+		});
+		rect_frame.strokeRoundedRect(0, -8, this.initial_bar_width, 16, 3);
+		this.gameObject.add(rect_frame);
 
-    /* END-USER-CTR-CODE */
+		/* END-USER-CTR-CODE */
 	}
 	
 	static getComponent(gameObject: Phaser.GameObjects.Container): Timer {
@@ -53,39 +53,48 @@ class Timer extends UserComponent {
 	public icon: any|undefined;
 	
 	/* START-USER-CODE */
-  private progress_bar: Phaser.GameObjects.Rectangle;
-  private mask_object: Phaser.GameObjects.Sprite;
+	private progress_bar: Phaser.GameObjects.Rectangle;
+	private mask_object: Phaser.GameObjects.Sprite;
 
-  private elapsed: number = 0;
-  private initial_bar_width: number = 650;
+	private elapsed: number = 0;
+	private initial_bar_width: number = 650;
 
-  awake() {
-    this.scene.events.on(GameEvent.GAME_START, this.startTimer, this);
-    this.gameObject.bringToTop(this.icon);
-  }
-  startTimer() {
-    this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
-    this.scene.events.on(GameEvent.TIMER_COMPLETE, this.reset, this);
-  }
-  reset() {
-	  
-   this.elapsed = 0;
-   this.progress_bar.width = this.initial_bar_width
-  }
-  updateTimer(time, delta) {
-    this.elapsed += delta / 1000;
+	awake() {
+		this.scene.events.on(GameEvent.GAME_START, this.startTimer, this);
+		this.gameObject.bringToTop(this.icon);
+		this.icon.y += 20;
+		this.gameObject.y -= 20;
+	}
+	startTimer() {
+		this.scene.events.on(
+			Phaser.Scenes.Events.UPDATE,
+			this.updateTimer,
+			this
+		);
+		this.scene.events.on(GameEvent.TIMER_COMPLETE, this.reset, this);
+	}
+	reset() {
+		this.elapsed = 0;
+		this.progress_bar.width = this.initial_bar_width;
+	}
+	updateTimer(time, delta) {
+		this.elapsed += delta / 1000;
 
-    if (this.elapsed > this.timer_length) {
-      this.progress_bar.width = 0;
-	  this.scene.events.off(Phaser.Scenes.Events.UPDATE, this.updateTimer, this);
-      this.scene.events.emit(GameEvent.TIMER_COMPLETE);
-    } else {
-      let perc = 1 - this.elapsed / this.timer_length;
-      this.progress_bar.width = this.initial_bar_width * perc;
-    }
-  }
+		if (this.elapsed > this.timer_length) {
+			this.progress_bar.width = 0;
+			this.scene.events.off(
+				Phaser.Scenes.Events.UPDATE,
+				this.updateTimer,
+				this
+			);
+			this.scene.events.emit(GameEvent.TIMER_COMPLETE);
+		} else {
+			let perc = 1 - this.elapsed / this.timer_length;
+			this.progress_bar.width = this.initial_bar_width * perc;
+		}
+	}
 
-  /* END-USER-CODE */
+	/* END-USER-CODE */
 }
 
 /* END OF COMPILED CODE */
