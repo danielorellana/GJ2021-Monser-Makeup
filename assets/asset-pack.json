@@ -72,14 +72,9 @@
                 "key": "dino"
             },
             {
-                "url": "assets/customers/elf_makeup_1.png",
-                "type": "image",
-                "key": "elf_makeup_1"
-            },
-            {
                 "url": "assets/customers/requests/elf/elf_makeup_1.png",
                 "type": "image",
-                "key": "elf_makeup_1_1"
+                "key": "elf_makeup_1"
             },
             {
                 "url": "assets/customers/requests/elf/elf_makeup_10.png",
