@@ -743,13 +743,12 @@ class Level extends Phaser.Scene {
         this.request_container.visible = false;
         let timeline = this.tweens.createTimeline();
         timeline.add({
-            duration: 1000,
+            duration: 1800,
             targets: this.customer_container,
             ease: Phaser.Math.Easing.Expo.Out,
             x: 1400,
         });
         timeline.add({
-            delay: 2000,
             completeDelay: 1000,
             duration: 1000,
             targets: this.cameras.main,
