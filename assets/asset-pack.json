@@ -387,6 +387,26 @@
                 "key": "steve_mask"
             },
             {
+                "url": "assets/thought_bubble/thought_bubble_1.png",
+                "type": "image",
+                "key": "thought_bubble_1"
+            },
+            {
+                "url": "assets/thought_bubble/thought_bubble_2.png",
+                "type": "image",
+                "key": "thought_bubble_2"
+            },
+            {
+                "url": "assets/thought_bubble/thought_bubble_3.png",
+                "type": "image",
+                "key": "thought_bubble_3"
+            },
+            {
+                "url": "assets/thought_bubble/thought_bubble_anim.json",
+                "type": "animation",
+                "key": "thought_bubble_anim"
+            },
+            {
                 "url": "assets/timer_icon.png",
                 "type": "image",
                 "key": "timer_icon"
